@@ -1,0 +1,5466 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Artillery report</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.6.0/chart.min.js"
+    integrity="sha384-scMuAXtFmPAlw0+pXLvnpHCt6VHh7AknTPdNrwiph5BA6MJWysg5WgSDl7r63txN"
+    crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"
+    integrity="sha384-v7eExOYhwaHa3+GhP+lHytJsMcidazNdjiaggRhdbvVTVTCjweLpa23t37ZKxaCf"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"
+    integrity="sha384-H6KKS1H1WwuERMSm+54dYLzjg0fKqRK5ZRyASdbrI/lwrCc6bXEmtGYr5SwvP1pZ"
+    crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.5.3/ace.js" charset="utf=8"
+    integrity="sha512-NofUHaTd/uaO1GXfw0JvXptI9XdO5LLrfjl7jVqnFlbxdgqVlE3SmuXAUoqRTB5GQKd82yzhchaDlc6C6+SylA=="
+    crossorigin="anonymous"></script>
+
+  <link href="https://artilleryio.github.io/artillery-tailwind/src/build.css" rel="stylesheet" type="text/css"
+    crossorigin="anonymous" />
+
+  <style>
+    html {
+      --bg-dark: #161616;
+      --bg: #202020;
+      --text: #ffffff;
+      --text-faded: #9b9b9b;
+      --border: #383838;
+      height: 100%;
+    }
+
+
+    .tab {
+      color: #9B9B9B;
+      border-color: transparent;
+    }
+
+    .tab:hover {
+      color: #FFFFFF;
+    }
+
+    .tab.active {
+      color: #FFFFFF;
+      border-color: #FFFFFF;
+    }
+
+    .tab.active:hover {
+      color: #FFFFFF;
+    }
+
+    .tab:hover span:first-child,
+    .tab.active:hover span:first-child {
+      background: #000000;
+    }
+
+    #errorsContainer>p {
+      color: var(--green);
+    }
+
+    #editor {
+      font-size: 10pt;
+    }
+
+    #editor input,
+    button {
+      color: var(--bg-dark);
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .border-gray {
+      border: 1px solid var(--border);
+    }
+
+    .border-bottom-gray {
+      border-bottom: 1px solid var(--border);
+    }
+
+    .chevron-down span {
+      transform: rotate(180deg);
+    }
+
+    .cursor-pointer {
+      cursor: pointer;
+    }
+
+    .index-tree-wrapper {
+      display: none;
+    }
+
+    @media (min-width: 768px) {
+      .index-tree-wrapper {
+        display: inline-flex;
+      }
+    }
+
+  </style>
+  <script>
+    !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.async=!0,p.src=s.api_host+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="capture identify alias people.set people.set_once set_config register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+    posthog.init('_uzX-_WJoVmE_tsLvu0OFD2tpd0HGz72D5sU1zM2hbs', {api_host: 'https://app.posthog.com', autocapture: false});
+    posthog.capture('report view', { });
+  </script>
+</head>
+
+<body>
+
+    <header class="header bg-black-default border-b border-gray-700 mb-9">
+      <div class="container m-auto relative flex items-center justify-between py-3 px-4 md:px-8">
+        <div class="flex items-center">
+          <div
+            class="group-hover:border-black-200 flex overflow-hidden rounded-md border-2 border-gray-800 transition mr-2">
+            <svg width="32" height="32" viewBox="0 0 300 306" fill="white" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M177.235 169.156L138.632 132.074L107.952 144.704L93.2929 130.623L228.213 75.9894L180.953 214.829L166.06 200.523L177.235 169.156ZM183.738 150.815L199.254 106.778L156.348 124.505L183.738 150.815Z"
+                fill="white" />
+              <path
+                d="M136.138 135.974L175.036 173.339L208.275 137.452L221.883 150.524L136.914 242.26L123.306 229.189L162.984 186.35L124.087 148.986L84.4087 191.824L70.8005 178.752L155.769 87.0157L169.378 100.088L136.138 135.974Z"
+                fill="white" />
+            </svg>
+          </div>
+          <div class="flex flex-col">
+            <h1 class="font-medium text-sm" id="report-name">
+              Artillery Report
+            </h1>
+            <div class="text-gray-default my-0 block text-xs transition group-hover:text-gray-700" id="timestamp"></div>
+          </div>
+        </div>
+        <div class="text-xsm">
+          <a target="_blank" rel="nofollow noopener" class="focus:text-beige text-gray-default transition-colors hover:text-gray-300 flex items-center space-x-1" href="https://artillery.io/docs">
+            <span>Docs</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" aria-label="External link" aria-labelledby="icon_external_1" x="0px" y="0px" role="img"><title id="icon_external_1" lang="en">External link</title><g fill="currentColor"><path d="M19 19H5V5H12V3H5C3.89 3 3 3.9 3 5V19C3 20.1 3.89 21 5 21H19C20.1 21 21 20.1 21 19V12H19V19ZM14 3V5H17.59L7.76 14.83L9.17 16.24L19 6.41V10H21V3H14Z"></path></g></svg>
+          </a>
+        </div>
+      </div>
+      <!-- tabs -->
+      <div class="bg-black-default relative pt-4 text-sm">
+        <div class="container m-auto flex items-center space-x-2 px-4 md:px-8">
+          <button id="charts-tab" class="tab active group border-b border-b-2 py-2 transition-all">
+            <span class="text-xsm flex items-center space-x-2 rounded py-1.5 px-2.5 transition-all">
+              
+                <svg width="12" height="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M2.33331 12.3267L6.33331 8.32001L8.99998 10.9867L14.6666 4.61334L13.7266 3.67334L8.99998 8.98667L6.33331 6.32001L1.33331 11.3267L2.33331 12.3267Z" fill="currentColor"/>
+                  </svg>
+              <span class="leading-4">Reports</span>
+            </span>
+          </button>
+          <button id="json-tab" class="tab group border-b border-b-2 py-2 transition-all">
+            <span class="text-xsm flex items-center space-x-2 rounded py-1.5 px-2.5 transition-all">
+              
+                <svg width="12" height="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M6.26665 11.0667L3.19998 8L6.26665 4.93333L5.33331 4L1.33331 8L5.33331 12L6.26665 11.0667ZM9.73331 11.0667L12.8 8L9.73331 4.93333L10.6666 4L14.6666 8L10.6666 12L9.73331 11.0667V11.0667Z" fill="currentColor"/>
+                </svg>  
+              <span class="leading-4">JSON Output</span>
+            </span>
+          </button>
+        </div>
+      </div>
+    </header>
+    <main style="margin-bottom: 2.5rem;">
+      <div class="container text-sm m-auto px-4 md:px-8">
+        <!-- summary blocks -->
+        <div class="app-test-stats w-full">
+          <ul class="flex flex-wrap space-x-3.5" id="summary-blocks">
+          </ul>
+        </div>
+        <div class="flex items-start w-full flex-row space-x-0 md:space-x-4 mt-1">
+          <!-- counters summary -->
+          <div class="w-full" id="charts-col">
+            <div class="overflow-x-auto overflow-y-hidden rounded border-gray mb-4">
+              <table class="w-full border-collapse text-left">
+                <thead class="text-gray-default bg-black-200 border-b border-gray-800" style="background-color: #2b2b2b;">
+                  <tr>
+                    <th class="whitespace-nowrap p-2" colspan="6">
+                      <span class="text-xsm" style="font-weight: 500 !important;">Metric</span>
+                    </th>
+                    <th class="whitespace-nowrap p-2" colspan="6">
+                      <span class="text-xsm" style="font-weight: 500 !important;">Value</span>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-800" id="customCountersTable">
+                </tbody>
+              </table>
+            </div>
+            <div id="errorsChartsRow">
+              <h4><i class="fas fa-chart-area"></i> Errors at intervals</h4>
+              <canvas id="errorsAtIntervalsChart"></canvas>
+            </div>
+            <!-- charts -->
+            <div id="customCountersAtIntervalsChart" class="space-y-4"></div>
+          </div>
+          <div class="index-tree-wrapper w-56 text-xsm sticky top-3">
+            <div id="index-tree">
+            </div>
+          </div>
+        </div>
+
+        <!-- json text output -->
+        <div>
+          <div class="hidden border-gray rounded" style="overflow: hidden;" id="json-output">
+            <div class="p-2 text-gray-default text-xsm flex items-center justify-between text-gray-default" style="border-bottom: 1px solid #383838; background-color: #2b2b2b; font-weight: 500;">JSON Output
+              <button id="copy-json" class="flex justify-center items-center space-x-2 font-medium text-center rounded transition-all p-1.5 text-xsm hover:text-gray-300 focus:text-gray-300 bg-transparent focus:ring hover:bg-black-700 text-gray-default focus:ring-black-200">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" aria-label="" aria-labelledby="icon_copy" x="0px" y="0px" role="img" class="inline false"><title id="icon_copy" lang="en"></title><g fill="#9b9b9b"><path d="M16 1H4C2.9 1 2 1.9 2 3V17H4V3H16V1ZM19 5H8C6.9 5 6 5.9 6 7V21C6 22.1 6.9 23 8 23H19C20.1 23 21 22.1 21 21V7C21 5.9 20.1 5 19 5ZM19 21H8V7H19V21Z"></path></g></svg>
+              </button>
+            </div>
+            <div id="editor"></div>
+          </div>
+        </div>
+      </div> <!-- /.row -->
+
+
+      <div class="row">
+        <div class="codes-line text-center col-lg-12"></div>
+      </div>
+      <div class="row">
+        <div class="errors-line text-center col-lg-12"></div>
+      </div>
+  </div>
+  </main>
+  <footer id="footer" class="bg-black-default py-4 text-xsm text-gray-default" style="margin-top: 2rem;">
+    <div class="container m-auto px-4 md:px-8">
+      <a href="https://www.artillery.io">Artillery</a> &bull; move fast, stay fast, stay reliable &bull; <a href="https://www.artillery.io">www.artillery.io</a>
+    </div>
+  </footer>
+
+
+
+  <script charset="utf-8">
+    const Report = {
+  "aggregate": {
+    "counters": {
+      "vusers.created_by_name.Homepage": 5080,
+      "vusers.created": 5080,
+      "http.requests": 5080,
+      "http.codes.404": 4716,
+      "http.responses": 4730,
+      "vusers.failed": 351,
+      "vusers.completed": 4729,
+      "vusers.skipped": 6920,
+      "errors.ETIMEDOUT": 350,
+      "http.codes.200": 14,
+      "errors.ECONNRESET": 1
+    },
+    "rates": {
+      "http.request_rate": 5
+    },
+    "firstCounterAt": 1681159113360,
+    "firstHistogramAt": 1681159113983,
+    "lastCounterAt": 1681159732874,
+    "lastHistogramAt": 1681159717912,
+    "firstMetricAt": 1681159113360,
+    "lastMetricAt": 1681159732874,
+    "period": 1681159730000,
+    "summaries": {
+      "http.response_time": {
+        "min": 159,
+        "max": 19768,
+        "count": 4730,
+        "p50": 2186.8,
+        "median": 2186.8,
+        "p75": 5826.9,
+        "p90": 11274.1,
+        "p95": 14332.3,
+        "p99": 18588.1,
+        "p999": 19737.6
+      },
+      "vusers.session_length": {
+        "min": 304.3,
+        "max": 19915.6,
+        "count": 4729,
+        "p50": 2322.1,
+        "median": 2322.1,
+        "p75": 5944.6,
+        "p90": 11501.8,
+        "p95": 14621.8,
+        "p99": 18588.1,
+        "p999": 19737.6
+      }
+    },
+    "histograms": {
+      "http.response_time": {
+        "min": 159,
+        "max": 19768,
+        "count": 4730,
+        "p50": 2186.8,
+        "median": 2186.8,
+        "p75": 5826.9,
+        "p90": 11274.1,
+        "p95": 14332.3,
+        "p99": 18588.1,
+        "p999": 19737.6
+      },
+      "vusers.session_length": {
+        "min": 304.3,
+        "max": 19915.6,
+        "count": 4729,
+        "p50": 2322.1,
+        "median": 2322.1,
+        "p75": 5944.6,
+        "p90": 11501.8,
+        "p95": 14621.8,
+        "p99": 18588.1,
+        "p999": 19737.6
+      }
+    }
+  },
+  "intermediate": [
+    {
+      "counters": {
+        "vusers.created_by_name.Homepage": 96,
+        "vusers.created": 96,
+        "http.requests": 96,
+        "http.codes.404": 48,
+        "http.responses": 48,
+        "vusers.failed": 0,
+        "vusers.completed": 48,
+        "vusers.skipped": 32
+      },
+      "rates": {
+        "http.request_rate": 18
+      },
+      "http.request_rate": null,
+      "firstCounterAt": 1681159113360,
+      "firstHistogramAt": 1681159113983,
+      "lastCounterAt": 1681159119987,
+      "lastHistogramAt": 1681159119947,
+      "firstMetricAt": 1681159113360,
+      "lastMetricAt": 1681159119987,
+      "period": "1681159110000",
+      "summaries": {
+        "http.response_time": {
+          "min": 163,
+          "max": 5333,
+          "count": 48,
+          "p50": 1587.9,
+          "median": 1587.9,
+          "p75": 2416.8,
+          "p90": 3262.4,
+          "p95": 3752.7,
+          "p99": 4231.1,
+          "p999": 4231.1
+        },
+        "vusers.session_length": {
+          "min": 321.9,
+          "max": 5556.2,
+          "count": 48,
+          "p50": 1755,
+          "median": 1755,
+          "p75": 2566.3,
+          "p90": 3395.5,
+          "p95": 3905.8,
+          "p99": 4403.8,
+          "p999": 4403.8
+        }
+      },
+      "histograms": {
+        "http.response_time": {
+          "min": 163,
+          "max": 5333,
+          "count": 48,
+          "p50": 1587.9,
+          "median": 1587.9,
+          "p75": 2416.8,
+          "p90": 3262.4,
+          "p95": 3752.7,
+          "p99": 4231.1,
+          "p999": 4231.1
+        },
+        "vusers.session_length": {
+          "min": 321.9,
+          "max": 5556.2,
+          "count": 48,
+          "p50": 1755,
+          "median": 1755,
+          "p75": 2566.3,
+          "p90": 3395.5,
+          "p95": 3905.8,
+          "p99": 4403.8,
+          "p999": 4403.8
+        }
+      }
+    },
+    {
+      "counters": {
+        "http.codes.404": 77,
+        "http.responses": 77,
+        "vusers.failed": 0,
+        "vusers.completed": 77,
+        "vusers.created_by_name.Homepage": 75,
+        "vusers.created": 75,
+        "http.requests": 75,
+        "vusers.skipped": 125
+      },
+      "rates": {
+        "http.request_rate": 13
+      },
+      "http.request_rate": null,
+      "firstCounterAt": 1681159120046,
+      "firstHistogramAt": 1681159120059,
+      "lastCounterAt": 1681159129984,
+      "lastHistogramAt": 1681159129913,
+      "firstMetricAt": 1681159120046,
+      "lastMetricAt": 1681159129984,
+      "period": "1681159120000",
+      "summaries": {
+        "http.response_time": {
+          "min": 518,
+          "max": 13140,
+          "count": 77,
+          "p50": 4676.2,
+          "median": 4676.2,
+          "p75": 6064.7,
+          "p90": 8352,
+          "p95": 9607.1,
+          "p99": 11050.8,
+          "p999": 11050.8
+        },
+        "vusers.session_length": {
+          "min": 666.1,
+          "max": 13288.9,
+          "count": 77,
+          "p50": 4770.6,
+          "median": 4770.6,
+          "p75": 6187.2,
+          "p90": 8520.7,
+          "p95": 9801.2,
+          "p99": 11274.1,
+          "p999": 11274.1
+        }
+      },
+      "histograms": {
+        "http.response_time": {
+          "min": 518,
+          "max": 13140,
+          "count": 77,
+          "p50": 4676.2,
+          "median": 4676.2,
+          "p75": 6064.7,
+          "p90": 8352,
+          "p95": 9607.1,
+          "p99": 11050.8,
+          "p999": 11050.8
+        },
+        "vusers.session_length": {
+          "min": 666.1,
+          "max": 13288.9,
+          "count": 77,
+          "p50": 4770.6,
+          "median": 4770.6,
+          "p75": 6187.2,
+          "p90": 8520.7,
+          "p95": 9801.2,
+          "p99": 11274.1,
+          "p999": 11274.1
+        }
+      }
+    },
+    {
+      "counters": {
+        "vusers.skipped": 124,
+        "http.codes.404": 75,
+        "http.responses": 75,
+        "vusers.failed": 0,
+        "vusers.completed": 75,
+        "vusers.created_by_name.Homepage": 76,
+        "vusers.created": 76,
+        "http.requests": 76
+      },
+      "rates": {
+        "http.request_rate": 15
+      },
+      "http.request_rate": null,
+      "firstCounterAt": 1681159130021,
+      "firstHistogramAt": 1681159130021,
+      "lastCounterAt": 1681159139984,
+      "lastHistogramAt": 1681159139898,
+      "firstMetricAt": 1681159130021,
+      "lastMetricAt": 1681159139984,
+      "period": "1681159130000",
+      "summaries": {
+        "http.response_time": {
+          "min": 1939,
+          "max": 18266,
+          "count": 75,
+          "p50": 3328.3,
+          "median": 3328.3,
+          "p75": 6838,
+          "p90": 11501.8,
+          "p95": 15218.6,
+          "p99": 18220,
+          "p999": 18220
+        },
+        "vusers.session_length": {
+          "min": 2086.6,
+          "max": 18414.7,
+          "count": 75,
+          "p50": 3464.1,
+          "median": 3464.1,
+          "p75": 6976.1,
+          "p90": 11501.8,
+          "p95": 15526,
+          "p99": 18220,
+          "p999": 18220
+        }
+      },
+      "histograms": {
+        "http.response_time": {
+          "min": 1939,
+          "max": 18266,
+          "count": 75,
+          "p50": 3328.3,
+          "median": 3328.3,
+          "p75": 6838,
+          "p90": 11501.8,
+          "p95": 15218.6,
+          "p99": 18220,
+          "p999": 18220
+        },
+        "vusers.session_length": {
+          "min": 2086.6,
+          "max": 18414.7,
+          "count": 75,
+          "p50": 3464.1,
+          "median": 3464.1,
+          "p75": 6976.1,
+          "p90": 11501.8,
+          "p95": 15526,
+          "p99": 18220,
+          "p999": 18220
+        }
+      }
+    },
+    {
+      "counters": {
+        "vusers.skipped": 123,
+        "http.codes.404": 77,
+        "http.responses": 77,
+        "vusers.failed": 0,
+        "vusers.completed": 77,
+        "vusers.created_by_name.Homepage": 77,
+        "vusers.created": 77,
+        "http.requests": 77
+      },
+      "rates": {
+        "http.request_rate": 14
+      },
+      "http.request_rate": null,
+      "firstCounterAt": 1681159140030,
+      "firstHistogramAt": 1681159140030,
+      "lastCounterAt": 1681159149984,
+      "lastHistogramAt": 1681159149948,
+      "firstMetricAt": 1681159140030,
+      "lastMetricAt": 1681159149984,
+      "period": "1681159140000",
+      "summaries": {
+        "http.response_time": {
+          "min": 953,
+          "max": 18317,
+          "count": 77,
+          "p50": 2893.5,
+          "median": 2893.5,
+          "p75": 6569.8,
+          "p90": 12213.1,
+          "p95": 15526,
+          "p99": 16819.2,
+          "p999": 16819.2
+        },
+        "vusers.session_length": {
+          "min": 1112.1,
+          "max": 18466.2,
+          "count": 77,
+          "p50": 3072.4,
+          "median": 3072.4,
+          "p75": 6702.6,
+          "p90": 12213.1,
+          "p95": 15526,
+          "p99": 17158.9,
+          "p999": 17158.9
+        }
+      },
+      "histograms": {
+        "http.response_time": {
+          "min": 953,
+          "max": 18317,
+          "count": 77,
+          "p50": 2893.5,
+          "median": 2893.5,
+          "p75": 6569.8,
+          "p90": 12213.1,
+          "p95": 15526,
+          "p99": 16819.2,
+          "p999": 16819.2
+        },
+        "vusers.session_length": {
+          "min": 1112.1,
+          "max": 18466.2,
+          "count": 77,
+          "p50": 3072.4,
+          "median": 3072.4,
+          "p75": 6702.6,
+          "p90": 12213.1,
+          "p95": 15526,
+          "p99": 17158.9,
+          "p999": 17158.9
+        }
+      }
+    },
+    {
+      "counters": {
+        "http.codes.404": 72,
+        "http.responses": 72,
+        "vusers.failed": 5,
+        "vusers.completed": 72,
+        "vusers.created_by_name.Homepage": 74,
+        "vusers.created": 74,
+        "http.requests": 74,
+        "vusers.skipped": 126,
+        "errors.ETIMEDOUT": 5
+      },
+      "rates": {
+        "http.request_rate": 17
+      },
+      "http.request_rate": null,
+      "firstCounterAt": 1681159150018,
+      "firstHistogramAt": 1681159150018,
+      "lastCounterAt": 1681159159984,
+      "lastHistogramAt": 1681159159928,
+      "firstMetricAt": 1681159150018,
+      "lastMetricAt": 1681159159984,
+      "period": "1681159150000",
+      "summaries": {
+        "http.response_time": {
+          "min": 170,
+          "max": 17357,
+          "count": 72,
+          "p50": 1686.1,
+          "median": 1686.1,
+          "p75": 6569.8,
+          "p90": 11274.1,
+          "p95": 12213.1,
+          "p99": 17158.9,
+          "p999": 17158.9
+        },
+        "vusers.session_length": {
+          "min": 318.4,
+          "max": 17504.2,
+          "count": 72,
+          "p50": 1863.5,
+          "median": 1863.5,
+          "p75": 6838,
+          "p90": 11501.8,
+          "p95": 12459.8,
+          "p99": 17158.9,
+          "p999": 17158.9
+        }
+      },
+      "histograms": {
+        "http.response_time": {
+          "min": 170,
+          "max": 17357,
+          "count": 72,
+          "p50": 1686.1,
+          "median": 1686.1,
+          "p75": 6569.8,
+          "p90": 11274.1,
+          "p95": 12213.1,
+          "p99": 17158.9,
+          "p999": 17158.9
+        },
+        "vusers.session_length": {
+          "min": 318.4,
+          "max": 17504.2,
+          "count": 72,
+          "p50": 1863.5,
+          "median": 1863.5,
+          "p75": 6838,
+          "p90": 11501.8,
+          "p95": 12459.8,
+          "p99": 17158.9,
+          "p999": 17158.9
+        }
+      }
+    },
+    {
+      "counters": {
+        "vusers.skipped": 118,
+        "http.codes.404": 77,
+        "http.responses": 77,
+        "vusers.failed": 3,
+        "vusers.completed": 77,
+        "vusers.created_by_name.Homepage": 82,
+        "vusers.created": 82,
+        "http.requests": 82,
+        "errors.ETIMEDOUT": 3
+      },
+      "rates": {
+        "http.request_rate": 16
+      },
+      "http.request_rate": null,
+      "firstCounterAt": 1681159160001,
+      "firstHistogramAt": 1681159160001,
+      "lastCounterAt": 1681159169985,
+      "lastHistogramAt": 1681159169983,
+      "firstMetricAt": 1681159160001,
+      "lastMetricAt": 1681159169985,
+      "period": "1681159160000",
+      "summaries": {
+        "http.response_time": {
+          "min": 166,
+          "max": 19513,
+          "count": 77,
+          "p50": 2186.8,
+          "median": 2186.8,
+          "p75": 10832,
+          "p90": 15218.6,
+          "p95": 16486.1,
+          "p99": 17158.9,
+          "p999": 17158.9
+        },
+        "vusers.session_length": {
+          "min": 313.7,
+          "max": 19658,
+          "count": 77,
+          "p50": 2369,
+          "median": 2369,
+          "p75": 11050.8,
+          "p90": 15526,
+          "p95": 16819.2,
+          "p99": 17505.6,
+          "p999": 17505.6
+        }
+      },
+      "histograms": {
+        "http.response_time": {
+          "min": 166,
+          "max": 19513,
+          "count": 77,
+          "p50": 2186.8,
+          "median": 2186.8,
+          "p75": 10832,
+          "p90": 15218.6,
+          "p95": 16486.1,
+          "p99": 17158.9,
+          "p999": 17158.9
+        },
+        "vusers.session_length": {
+          "min": 313.7,
+          "max": 19658,
+          "count": 77,
+          "p50": 2369,
+          "median": 2369,
+          "p75": 11050.8,
+          "p90": 15526,
+          "p95": 16819.2,
+          "p99": 17505.6,
+          "p999": 17505.6
+        }
+      }
+    },
+    {
+      "counters": {
+        "http.codes.404": 73,
+        "http.responses": 73,
+        "vusers.failed": 2,
+        "vusers.completed": 73,
+        "vusers.created_by_name.Homepage": 74,
+        "vusers.created": 74,
+        "http.requests": 74,
+        "vusers.skipped": 126,
+        "errors.ETIMEDOUT": 2
+      },
+      "rates": {
+        "http.request_rate": 13
+      },
+      "http.request_rate": null,
+      "firstCounterAt": 1681159170006,
+      "firstHistogramAt": 1681159170006,
+      "lastCounterAt": 1681159179986,
+      "lastHistogramAt": 1681159179912,
+      "firstMetricAt": 1681159170006,
+      "lastMetricAt": 1681159179986,
+      "period": "1681159170000",
+      "summaries": {
+        "http.response_time": {
+          "min": 169,
+          "max": 18367,
+          "count": 73,
+          "p50": 3752.7,
+          "median": 3752.7,
+          "p75": 8868.4,
+          "p90": 13497.6,
+          "p95": 15839.7,
+          "p99": 17505.6,
+          "p999": 17505.6
+        },
+        "vusers.session_length": {
+          "min": 317.9,
+          "max": 18516.3,
+          "count": 73,
+          "p50": 3905.8,
+          "median": 3905.8,
+          "p75": 9047.6,
+          "p90": 13497.6,
+          "p95": 15839.7,
+          "p99": 17505.6,
+          "p999": 17505.6
+        }
+      },
+      "histograms": {
+        "http.response_time": {
+          "min": 169,
+          "max": 18367,
+          "count": 73,
+          "p50": 3752.7,
+          "median": 3752.7,
+          "p75": 8868.4,
+          "p90": 13497.6,
+          "p95": 15839.7,
+          "p99": 17505.6,
+          "p999": 17505.6
+        },
+        "vusers.session_length": {
+          "min": 317.9,
+          "max": 18516.3,
+          "count": 73,
+          "p50": 3905.8,
+          "median": 3905.8,
+          "p75": 9047.6,
+          "p90": 13497.6,
+          "p95": 15839.7,
+          "p99": 17505.6,
+          "p999": 17505.6
+        }
+      }
+    },
+    {
+      "counters": {
+        "vusers.skipped": 121,
+        "http.codes.404": 75,
+        "http.responses": 75,
+        "vusers.failed": 9,
+        "vusers.completed": 75,
+        "vusers.created_by_name.Homepage": 79,
+        "vusers.created": 79,
+        "http.requests": 79,
+        "errors.ETIMEDOUT": 9
+      },
+      "rates": {
+        "http.request_rate": 13
+      },
+      "http.request_rate": null,
+      "firstCounterAt": 1681159180008,
+      "firstHistogramAt": 1681159180008,
+      "lastCounterAt": 1681159189996,
+      "lastHistogramAt": 1681159189996,
+      "firstMetricAt": 1681159180008,
+      "lastMetricAt": 1681159189996,
+      "period": "1681159180000",
+      "summaries": {
+        "http.response_time": {
+          "min": 166,
+          "max": 18018,
+          "count": 75,
+          "p50": 1720.2,
+          "median": 1720.2,
+          "p75": 5272.4,
+          "p90": 9416.8,
+          "p95": 12459.8,
+          "p99": 15526,
+          "p999": 15526
+        },
+        "vusers.session_length": {
+          "min": 312.3,
+          "max": 18164.5,
+          "count": 75,
+          "p50": 1863.5,
+          "median": 1863.5,
+          "p75": 5378.9,
+          "p90": 9416.8,
+          "p95": 12459.8,
+          "p99": 15526,
+          "p999": 15526
+        }
+      },
+      "histograms": {
+        "http.response_time": {
+          "min": 166,
+          "max": 18018,
+          "count": 75,
+          "p50": 1720.2,
+          "median": 1720.2,
+          "p75": 5272.4,
+          "p90": 9416.8,
+          "p95": 12459.8,
+          "p99": 15526,
+          "p999": 15526
+        },
+        "vusers.session_length": {
+          "min": 312.3,
+          "max": 18164.5,
+          "count": 75,
+          "p50": 1863.5,
+          "median": 1863.5,
+          "p75": 5378.9,
+          "p90": 9416.8,
+          "p95": 12459.8,
+          "p99": 15526,
+          "p999": 15526
+        }
+      }
+    },
+    {
+      "counters": {
+        "vusers.created_by_name.Homepage": 78,
+        "vusers.created": 78,
+        "http.requests": 78,
+        "vusers.skipped": 122,
+        "http.codes.404": 69,
+        "http.responses": 69,
+        "vusers.failed": 5,
+        "vusers.completed": 69,
+        "errors.ETIMEDOUT": 5
+      },
+      "rates": {
+        "http.request_rate": 14
+      },
+      "http.request_rate": null,
+      "firstCounterAt": 1681159190046,
+      "firstHistogramAt": 1681159190887,
+      "lastCounterAt": 1681159199984,
+      "lastHistogramAt": 1681159199949,
+      "firstMetricAt": 1681159190046,
+      "lastMetricAt": 1681159199984,
+      "period": "1681159190000",
+      "summaries": {
+        "http.response_time": {
+          "min": 166,
+          "max": 19462,
+          "count": 69,
+          "p50": 2231,
+          "median": 2231,
+          "p75": 6838,
+          "p90": 11501.8,
+          "p95": 14917.2,
+          "p99": 18588.1,
+          "p999": 18588.1
+        },
+        "vusers.session_length": {
+          "min": 311.2,
+          "max": 19606.7,
+          "count": 69,
+          "p50": 2369,
+          "median": 2369,
+          "p75": 6976.1,
+          "p90": 11501.8,
+          "p95": 15218.6,
+          "p99": 18588.1,
+          "p999": 18588.1
+        }
+      },
+      "histograms": {
+        "http.response_time": {
+          "min": 166,
+          "max": 19462,
+          "count": 69,
+          "p50": 2231,
+          "median": 2231,
+          "p75": 6838,
+          "p90": 11501.8,
+          "p95": 14917.2,
+          "p99": 18588.1,
+          "p999": 18588.1
+        },
+        "vusers.session_length": {
+          "min": 311.2,
+          "max": 19606.7,
+          "count": 69,
+          "p50": 2369,
+          "median": 2369,
+          "p75": 6976.1,
+          "p90": 11501.8,
+          "p95": 15218.6,
+          "p99": 18588.1,
+          "p999": 18588.1
+        }
+      }
+    },
+    {
+      "counters": {
+        "vusers.skipped": 118,
+        "http.codes.404": 76,
+        "http.responses": 76,
+        "vusers.failed": 6,
+        "vusers.completed": 76,
+        "vusers.created_by_name.Homepage": 82,
+        "vusers.created": 82,
+        "http.requests": 82,
+        "errors.ETIMEDOUT": 6
+      },
+      "rates": {
+        "http.request_rate": 16
+      },
+      "http.request_rate": null,
+      "firstCounterAt": 1681159200027,
+      "firstHistogramAt": 1681159200027,
+      "lastCounterAt": 1681159209985,
+      "lastHistogramAt": 1681159209981,
+      "firstMetricAt": 1681159200027,
+      "lastMetricAt": 1681159209985,
+      "period": "1681159200000",
+      "summaries": {
+        "http.response_time": {
+          "min": 164,
+          "max": 19017,
+          "count": 76,
+          "p50": 3197.8,
+          "median": 3197.8,
+          "p75": 7260.8,
+          "p90": 12459.8,
+          "p95": 14332.3,
+          "p99": 18588.1,
+          "p999": 18588.1
+        },
+        "vusers.session_length": {
+          "min": 310.3,
+          "max": 19163,
+          "count": 76,
+          "p50": 3328.3,
+          "median": 3328.3,
+          "p75": 7407.5,
+          "p90": 12459.8,
+          "p95": 14621.8,
+          "p99": 18588.1,
+          "p999": 18588.1
+        }
+      },
+      "histograms": {
+        "http.response_time": {
+          "min": 164,
+          "max": 19017,
+          "count": 76,
+          "p50": 3197.8,
+          "median": 3197.8,
+          "p75": 7260.8,
+          "p90": 12459.8,
+          "p95": 14332.3,
+          "p99": 18588.1,
+          "p999": 18588.1
+        },
+        "vusers.session_length": {
+          "min": 310.3,
+          "max": 19163,
+          "count": 76,
+          "p50": 3328.3,
+          "median": 3328.3,
+          "p75": 7407.5,
+          "p90": 12459.8,
+          "p95": 14621.8,
+          "p99": 18588.1,
+          "p999": 18588.1
+        }
+      }
+    },
+    {
+      "counters": {
+        "vusers.skipped": 128,
+        "http.codes.404": 68,
+        "http.responses": 68,
+        "vusers.failed": 6,
+        "vusers.completed": 68,
+        "vusers.created_by_name.Homepage": 72,
+        "vusers.created": 72,
+        "http.requests": 72,
+        "errors.ETIMEDOUT": 6
+      },
+      "rates": {
+        "http.request_rate": 11
+      },
+      "http.request_rate": null,
+      "firstCounterAt": 1681159210033,
+      "firstHistogramAt": 1681159210033,
+      "lastCounterAt": 1681159219984,
+      "lastHistogramAt": 1681159219956,
+      "firstMetricAt": 1681159210033,
+      "lastMetricAt": 1681159219984,
+      "period": "1681159210000",
+      "summaries": {
+        "http.response_time": {
+          "min": 165,
+          "max": 16475,
+          "count": 68,
+          "p50": 2231,
+          "median": 2231,
+          "p75": 6838,
+          "p90": 10407.3,
+          "p95": 11274.1,
+          "p99": 15526,
+          "p999": 15526
+        },
+        "vusers.session_length": {
+          "min": 310.1,
+          "max": 16625.7,
+          "count": 68,
+          "p50": 2369,
+          "median": 2369,
+          "p75": 6976.1,
+          "p90": 10617.5,
+          "p95": 11501.8,
+          "p99": 15526,
+          "p999": 15526
+        }
+      },
+      "histograms": {
+        "http.response_time": {
+          "min": 165,
+          "max": 16475,
+          "count": 68,
+          "p50": 2231,
+          "median": 2231,
+          "p75": 6838,
+          "p90": 10407.3,
+          "p95": 11274.1,
+          "p99": 15526,
+          "p999": 15526
+        },
+        "vusers.session_length": {
+          "min": 310.1,
+          "max": 16625.7,
+          "count": 68,
+          "p50": 2369,
+          "median": 2369,
+          "p75": 6976.1,
+          "p90": 10617.5,
+          "p95": 11501.8,
+          "p99": 15526,
+          "p999": 15526
+        }
+      }
+    },
+    {
+      "counters": {
+        "vusers.created_by_name.Homepage": 78,
+        "vusers.created": 78,
+        "http.requests": 78,
+        "vusers.skipped": 122,
+        "http.codes.404": 73,
+        "http.responses": 73,
+        "vusers.failed": 7,
+        "vusers.completed": 73,
+        "errors.ETIMEDOUT": 7
+      },
+      "rates": {
+        "http.request_rate": 16
+      },
+      "http.request_rate": null,
+      "firstCounterAt": 1681159220046,
+      "firstHistogramAt": 1681159220137,
+      "lastCounterAt": 1681159229983,
+      "lastHistogramAt": 1681159229951,
+      "firstMetricAt": 1681159220046,
+      "lastMetricAt": 1681159229983,
+      "period": "1681159220000",
+      "summaries": {
+        "http.response_time": {
+          "min": 162,
+          "max": 19029,
+          "count": 73,
+          "p50": 2186.8,
+          "median": 2186.8,
+          "p75": 7260.8,
+          "p90": 10407.3,
+          "p95": 15526,
+          "p99": 17859.2,
+          "p999": 17859.2
+        },
+        "vusers.session_length": {
+          "min": 311.7,
+          "max": 19180,
+          "count": 73,
+          "p50": 2369,
+          "median": 2369,
+          "p75": 7407.5,
+          "p90": 10617.5,
+          "p95": 15526,
+          "p99": 18220,
+          "p999": 18220
+        }
+      },
+      "histograms": {
+        "http.response_time": {
+          "min": 162,
+          "max": 19029,
+          "count": 73,
+          "p50": 2186.8,
+          "median": 2186.8,
+          "p75": 7260.8,
+          "p90": 10407.3,
+          "p95": 15526,
+          "p99": 17859.2,
+          "p999": 17859.2
+        },
+        "vusers.session_length": {
+          "min": 311.7,
+          "max": 19180,
+          "count": 73,
+          "p50": 2369,
+          "median": 2369,
+          "p75": 7407.5,
+          "p90": 10617.5,
+          "p95": 15526,
+          "p99": 18220,
+          "p999": 18220
+        }
+      }
+    },
+    {
+      "counters": {
+        "vusers.skipped": 122,
+        "http.codes.404": 67,
+        "http.responses": 67,
+        "vusers.failed": 6,
+        "vusers.completed": 67,
+        "vusers.created_by_name.Homepage": 78,
+        "vusers.created": 78,
+        "http.requests": 78,
+        "errors.ETIMEDOUT": 6
+      },
+      "rates": {
+        "http.request_rate": 16
+      },
+      "http.request_rate": null,
+      "firstCounterAt": 1681159230045,
+      "firstHistogramAt": 1681159230045,
+      "lastCounterAt": 1681159239983,
+      "lastHistogramAt": 1681159239944,
+      "firstMetricAt": 1681159230045,
+      "lastMetricAt": 1681159239983,
+      "period": "1681159230000",
+      "summaries": {
+        "http.response_time": {
+          "min": 163,
+          "max": 15454,
+          "count": 67,
+          "p50": 2725,
+          "median": 2725,
+          "p75": 6838,
+          "p90": 11971.2,
+          "p95": 12968.3,
+          "p99": 14332.3,
+          "p999": 14332.3
+        },
+        "vusers.session_length": {
+          "min": 312.9,
+          "max": 15600.5,
+          "count": 67,
+          "p50": 2893.5,
+          "median": 2893.5,
+          "p75": 6976.1,
+          "p90": 11971.2,
+          "p95": 12968.3,
+          "p99": 14621.8,
+          "p999": 14621.8
+        }
+      },
+      "histograms": {
+        "http.response_time": {
+          "min": 163,
+          "max": 15454,
+          "count": 67,
+          "p50": 2725,
+          "median": 2725,
+          "p75": 6838,
+          "p90": 11971.2,
+          "p95": 12968.3,
+          "p99": 14332.3,
+          "p999": 14332.3
+        },
+        "vusers.session_length": {
+          "min": 312.9,
+          "max": 15600.5,
+          "count": 67,
+          "p50": 2893.5,
+          "median": 2893.5,
+          "p75": 6976.1,
+          "p90": 11971.2,
+          "p95": 12968.3,
+          "p99": 14621.8,
+          "p999": 14621.8
+        }
+      }
+    },
+    {
+      "counters": {
+        "vusers.skipped": 120,
+        "http.codes.404": 79,
+        "http.responses": 79,
+        "vusers.failed": 5,
+        "vusers.completed": 79,
+        "vusers.created_by_name.Homepage": 80,
+        "vusers.created": 80,
+        "http.requests": 80,
+        "errors.ETIMEDOUT": 5
+      },
+      "rates": {
+        "http.request_rate": 13
+      },
+      "http.request_rate": null,
+      "firstCounterAt": 1681159240022,
+      "firstHistogramAt": 1681159240022,
+      "lastCounterAt": 1681159249983,
+      "lastHistogramAt": 1681159249961,
+      "firstMetricAt": 1681159240022,
+      "lastMetricAt": 1681159249983,
+      "period": "1681159240000",
+      "summaries": {
+        "http.response_time": {
+          "min": 166,
+          "max": 19584,
+          "count": 79,
+          "p50": 3752.7,
+          "median": 3752.7,
+          "p75": 7260.8,
+          "p90": 12459.8,
+          "p95": 17505.6,
+          "p99": 18963.6,
+          "p999": 18963.6
+        },
+        "vusers.session_length": {
+          "min": 314.2,
+          "max": 19732.7,
+          "count": 79,
+          "p50": 3905.8,
+          "median": 3905.8,
+          "p75": 7407.5,
+          "p90": 12459.8,
+          "p95": 17505.6,
+          "p99": 19346.7,
+          "p999": 19346.7
+        }
+      },
+      "histograms": {
+        "http.response_time": {
+          "min": 166,
+          "max": 19584,
+          "count": 79,
+          "p50": 3752.7,
+          "median": 3752.7,
+          "p75": 7260.8,
+          "p90": 12459.8,
+          "p95": 17505.6,
+          "p99": 18963.6,
+          "p999": 18963.6
+        },
+        "vusers.session_length": {
+          "min": 314.2,
+          "max": 19732.7,
+          "count": 79,
+          "p50": 3905.8,
+          "median": 3905.8,
+          "p75": 7407.5,
+          "p90": 12459.8,
+          "p95": 17505.6,
+          "p99": 19346.7,
+          "p999": 19346.7
+        }
+      }
+    },
+    {
+      "counters": {
+        "vusers.created_by_name.Homepage": 83,
+        "vusers.created": 83,
+        "http.requests": 83,
+        "vusers.skipped": 117,
+        "http.codes.404": 76,
+        "http.responses": 76,
+        "vusers.failed": 4,
+        "vusers.completed": 76,
+        "errors.ETIMEDOUT": 4
+      },
+      "rates": {
+        "http.request_rate": 14
+      },
+      "http.request_rate": null,
+      "firstCounterAt": 1681159250045,
+      "firstHistogramAt": 1681159250892,
+      "lastCounterAt": 1681159259983,
+      "lastHistogramAt": 1681159259928,
+      "firstMetricAt": 1681159250045,
+      "lastMetricAt": 1681159259983,
+      "period": "1681159250000",
+      "summaries": {
+        "http.response_time": {
+          "min": 165,
+          "max": 17490,
+          "count": 76,
+          "p50": 1720.2,
+          "median": 1720.2,
+          "p75": 5711.5,
+          "p90": 8352,
+          "p95": 11274.1,
+          "p99": 15526,
+          "p999": 15526
+        },
+        "vusers.session_length": {
+          "min": 314.6,
+          "max": 17648.5,
+          "count": 76,
+          "p50": 1863.5,
+          "median": 1863.5,
+          "p75": 5944.6,
+          "p90": 8520.7,
+          "p95": 11501.8,
+          "p99": 15526,
+          "p999": 15526
+        }
+      },
+      "histograms": {
+        "http.response_time": {
+          "min": 165,
+          "max": 17490,
+          "count": 76,
+          "p50": 1720.2,
+          "median": 1720.2,
+          "p75": 5711.5,
+          "p90": 8352,
+          "p95": 11274.1,
+          "p99": 15526,
+          "p999": 15526
+        },
+        "vusers.session_length": {
+          "min": 314.6,
+          "max": 17648.5,
+          "count": 76,
+          "p50": 1863.5,
+          "median": 1863.5,
+          "p75": 5944.6,
+          "p90": 8520.7,
+          "p95": 11501.8,
+          "p99": 15526,
+          "p999": 15526
+        }
+      }
+    },
+    {
+      "counters": {
+        "vusers.skipped": 117,
+        "errors.ETIMEDOUT": 7,
+        "vusers.failed": 7,
+        "vusers.created_by_name.Homepage": 83,
+        "vusers.created": 83,
+        "http.requests": 83,
+        "http.codes.404": 75,
+        "http.responses": 75,
+        "vusers.completed": 75
+      },
+      "rates": {
+        "http.request_rate": 11
+      },
+      "http.request_rate": null,
+      "firstCounterAt": 1681159260005,
+      "firstHistogramAt": 1681159260005,
+      "lastCounterAt": 1681159269991,
+      "lastHistogramAt": 1681159269991,
+      "firstMetricAt": 1681159260005,
+      "lastMetricAt": 1681159269991,
+      "period": "1681159260000",
+      "summaries": {
+        "http.response_time": {
+          "min": 165,
+          "max": 18571,
+          "count": 75,
+          "p50": 3262.4,
+          "median": 3262.4,
+          "p75": 8352,
+          "p90": 11274.1,
+          "p95": 15526,
+          "p99": 18588.1,
+          "p999": 18588.1
+        },
+        "vusers.session_length": {
+          "min": 311.3,
+          "max": 18716.3,
+          "count": 75,
+          "p50": 3395.5,
+          "median": 3395.5,
+          "p75": 8520.7,
+          "p90": 11501.8,
+          "p95": 15526,
+          "p99": 18588.1,
+          "p999": 18588.1
+        }
+      },
+      "histograms": {
+        "http.response_time": {
+          "min": 165,
+          "max": 18571,
+          "count": 75,
+          "p50": 3262.4,
+          "median": 3262.4,
+          "p75": 8352,
+          "p90": 11274.1,
+          "p95": 15526,
+          "p99": 18588.1,
+          "p999": 18588.1
+        },
+        "vusers.session_length": {
+          "min": 311.3,
+          "max": 18716.3,
+          "count": 75,
+          "p50": 3395.5,
+          "median": 3395.5,
+          "p75": 8520.7,
+          "p90": 11501.8,
+          "p95": 15526,
+          "p99": 18588.1,
+          "p999": 18588.1
+        }
+      }
+    },
+    {
+      "counters": {
+        "vusers.created_by_name.Homepage": 78,
+        "vusers.created": 78,
+        "http.requests": 78,
+        "vusers.skipped": 122,
+        "http.codes.404": 76,
+        "http.responses": 76,
+        "vusers.failed": 3,
+        "vusers.completed": 76,
+        "errors.ETIMEDOUT": 3
+      },
+      "rates": {
+        "http.request_rate": 15
+      },
+      "http.request_rate": null,
+      "firstCounterAt": 1681159270045,
+      "firstHistogramAt": 1681159270117,
+      "lastCounterAt": 1681159279984,
+      "lastHistogramAt": 1681159279953,
+      "firstMetricAt": 1681159270045,
+      "lastMetricAt": 1681159279984,
+      "period": "1681159270000",
+      "summaries": {
+        "http.response_time": {
+          "min": 166,
+          "max": 19555,
+          "count": 76,
+          "p50": 2725,
+          "median": 2725,
+          "p75": 5826.9,
+          "p90": 12459.8,
+          "p95": 14332.3,
+          "p99": 18588.1,
+          "p999": 18588.1
+        },
+        "vusers.session_length": {
+          "min": 313,
+          "max": 19704.6,
+          "count": 76,
+          "p50": 2836.2,
+          "median": 2836.2,
+          "p75": 5944.6,
+          "p90": 12459.8,
+          "p95": 14621.8,
+          "p99": 18588.1,
+          "p999": 18588.1
+        }
+      },
+      "histograms": {
+        "http.response_time": {
+          "min": 166,
+          "max": 19555,
+          "count": 76,
+          "p50": 2725,
+          "median": 2725,
+          "p75": 5826.9,
+          "p90": 12459.8,
+          "p95": 14332.3,
+          "p99": 18588.1,
+          "p999": 18588.1
+        },
+        "vusers.session_length": {
+          "min": 313,
+          "max": 19704.6,
+          "count": 76,
+          "p50": 2836.2,
+          "median": 2836.2,
+          "p75": 5944.6,
+          "p90": 12459.8,
+          "p95": 14621.8,
+          "p99": 18588.1,
+          "p999": 18588.1
+        }
+      }
+    },
+    {
+      "counters": {
+        "vusers.skipped": 122,
+        "http.codes.404": 70,
+        "http.responses": 70,
+        "vusers.failed": 7,
+        "vusers.completed": 70,
+        "vusers.created_by_name.Homepage": 78,
+        "vusers.created": 78,
+        "http.requests": 78,
+        "errors.ETIMEDOUT": 7
+      },
+      "rates": {
+        "http.request_rate": 16
+      },
+      "http.request_rate": null,
+      "firstCounterAt": 1681159280045,
+      "firstHistogramAt": 1681159280892,
+      "lastCounterAt": 1681159289983,
+      "lastHistogramAt": 1681159289905,
+      "firstMetricAt": 1681159280045,
+      "lastMetricAt": 1681159289983,
+      "period": "1681159280000",
+      "summaries": {
+        "http.response_time": {
+          "min": 169,
+          "max": 19021,
+          "count": 70,
+          "p50": 2186.8,
+          "median": 2186.8,
+          "p75": 5272.4,
+          "p90": 11274.1,
+          "p95": 11971.2,
+          "p99": 14332.3,
+          "p999": 14332.3
+        },
+        "vusers.session_length": {
+          "min": 318,
+          "max": 19167.2,
+          "count": 70,
+          "p50": 2369,
+          "median": 2369,
+          "p75": 5378.9,
+          "p90": 11501.8,
+          "p95": 11971.2,
+          "p99": 14621.8,
+          "p999": 14621.8
+        }
+      },
+      "histograms": {
+        "http.response_time": {
+          "min": 169,
+          "max": 19021,
+          "count": 70,
+          "p50": 2186.8,
+          "median": 2186.8,
+          "p75": 5272.4,
+          "p90": 11274.1,
+          "p95": 11971.2,
+          "p99": 14332.3,
+          "p999": 14332.3
+        },
+        "vusers.session_length": {
+          "min": 318,
+          "max": 19167.2,
+          "count": 70,
+          "p50": 2369,
+          "median": 2369,
+          "p75": 5378.9,
+          "p90": 11501.8,
+          "p95": 11971.2,
+          "p99": 14621.8,
+          "p999": 14621.8
+        }
+      }
+    },
+    {
+      "counters": {
+        "vusers.created_by_name.Homepage": 76,
+        "vusers.created": 76,
+        "http.requests": 76,
+        "vusers.skipped": 124,
+        "http.codes.404": 74,
+        "http.responses": 74,
+        "vusers.failed": 6,
+        "vusers.completed": 74,
+        "errors.ETIMEDOUT": 6
+      },
+      "rates": {
+        "http.request_rate": 13
+      },
+      "http.request_rate": null,
+      "firstCounterAt": 1681159290011,
+      "firstHistogramAt": 1681159290011,
+      "lastCounterAt": 1681159299983,
+      "lastHistogramAt": 1681159299962,
+      "firstMetricAt": 1681159290011,
+      "lastMetricAt": 1681159299983,
+      "period": "1681159290000",
+      "summaries": {
+        "http.response_time": {
+          "min": 161,
+          "max": 18504,
+          "count": 74,
+          "p50": 2725,
+          "median": 2725,
+          "p75": 7260.8,
+          "p90": 11274.1,
+          "p95": 12459.8,
+          "p99": 16486.1,
+          "p999": 16486.1
+        },
+        "vusers.session_length": {
+          "min": 311.4,
+          "max": 18654.7,
+          "count": 74,
+          "p50": 2893.5,
+          "median": 2893.5,
+          "p75": 7407.5,
+          "p90": 11501.8,
+          "p95": 12459.8,
+          "p99": 16486.1,
+          "p999": 16486.1
+        }
+      },
+      "histograms": {
+        "http.response_time": {
+          "min": 161,
+          "max": 18504,
+          "count": 74,
+          "p50": 2725,
+          "median": 2725,
+          "p75": 7260.8,
+          "p90": 11274.1,
+          "p95": 12459.8,
+          "p99": 16486.1,
+          "p999": 16486.1
+        },
+        "vusers.session_length": {
+          "min": 311.4,
+          "max": 18654.7,
+          "count": 74,
+          "p50": 2893.5,
+          "median": 2893.5,
+          "p75": 7407.5,
+          "p90": 11501.8,
+          "p95": 12459.8,
+          "p99": 16486.1,
+          "p999": 16486.1
+        }
+      }
+    },
+    {
+      "counters": {
+        "vusers.skipped": 124,
+        "http.codes.404": 65,
+        "http.responses": 65,
+        "vusers.failed": 4,
+        "vusers.completed": 65,
+        "vusers.created_by_name.Homepage": 76,
+        "vusers.created": 76,
+        "http.requests": 76,
+        "errors.ETIMEDOUT": 4
+      },
+      "rates": {
+        "http.request_rate": 16
+      },
+      "http.request_rate": null,
+      "firstCounterAt": 1681159300038,
+      "firstHistogramAt": 1681159300038,
+      "lastCounterAt": 1681159309983,
+      "lastHistogramAt": 1681159309922,
+      "firstMetricAt": 1681159300038,
+      "lastMetricAt": 1681159309983,
+      "period": "1681159300000",
+      "summaries": {
+        "http.response_time": {
+          "min": 171,
+          "max": 18018,
+          "count": 65,
+          "p50": 3197.8,
+          "median": 3197.8,
+          "p75": 6312.2,
+          "p90": 10407.3,
+          "p95": 14332.3,
+          "p99": 17505.6,
+          "p999": 17505.6
+        },
+        "vusers.session_length": {
+          "min": 318,
+          "max": 18164.8,
+          "count": 65,
+          "p50": 3395.5,
+          "median": 3395.5,
+          "p75": 6439.7,
+          "p90": 10407.3,
+          "p95": 14621.8,
+          "p99": 17505.6,
+          "p999": 17505.6
+        }
+      },
+      "histograms": {
+        "http.response_time": {
+          "min": 171,
+          "max": 18018,
+          "count": 65,
+          "p50": 3197.8,
+          "median": 3197.8,
+          "p75": 6312.2,
+          "p90": 10407.3,
+          "p95": 14332.3,
+          "p99": 17505.6,
+          "p999": 17505.6
+        },
+        "vusers.session_length": {
+          "min": 318,
+          "max": 18164.8,
+          "count": 65,
+          "p50": 3395.5,
+          "median": 3395.5,
+          "p75": 6439.7,
+          "p90": 10407.3,
+          "p95": 14621.8,
+          "p99": 17505.6,
+          "p999": 17505.6
+        }
+      }
+    },
+    {
+      "counters": {
+        "vusers.created_by_name.Homepage": 78,
+        "vusers.created": 78,
+        "http.requests": 78,
+        "vusers.skipped": 122,
+        "http.codes.404": 78,
+        "http.responses": 78,
+        "vusers.failed": 5,
+        "vusers.completed": 78,
+        "errors.ETIMEDOUT": 5
+      },
+      "rates": {
+        "http.request_rate": 15
+      },
+      "http.request_rate": null,
+      "firstCounterAt": 1681159310014,
+      "firstHistogramAt": 1681159310014,
+      "lastCounterAt": 1681159319987,
+      "lastHistogramAt": 1681159319987,
+      "firstMetricAt": 1681159310014,
+      "lastMetricAt": 1681159319987,
+      "period": "1681159310000",
+      "summaries": {
+        "http.response_time": {
+          "min": 165,
+          "max": 19450,
+          "count": 78,
+          "p50": 2725,
+          "median": 2725,
+          "p75": 6312.2,
+          "p90": 9801.2,
+          "p95": 14332.3,
+          "p99": 17505.6,
+          "p999": 17505.6
+        },
+        "vusers.session_length": {
+          "min": 310.9,
+          "max": 19594.8,
+          "count": 78,
+          "p50": 2893.5,
+          "median": 2893.5,
+          "p75": 6439.7,
+          "p90": 9999.2,
+          "p95": 14621.8,
+          "p99": 17505.6,
+          "p999": 17505.6
+        }
+      },
+      "histograms": {
+        "http.response_time": {
+          "min": 165,
+          "max": 19450,
+          "count": 78,
+          "p50": 2725,
+          "median": 2725,
+          "p75": 6312.2,
+          "p90": 9801.2,
+          "p95": 14332.3,
+          "p99": 17505.6,
+          "p999": 17505.6
+        },
+        "vusers.session_length": {
+          "min": 310.9,
+          "max": 19594.8,
+          "count": 78,
+          "p50": 2893.5,
+          "median": 2893.5,
+          "p75": 6439.7,
+          "p90": 9999.2,
+          "p95": 14621.8,
+          "p99": 17505.6,
+          "p999": 17505.6
+        }
+      }
+    },
+    {
+      "counters": {
+        "vusers.created_by_name.Homepage": 77,
+        "vusers.created": 77,
+        "http.requests": 77,
+        "vusers.skipped": 123,
+        "http.codes.404": 70,
+        "http.responses": 70,
+        "vusers.failed": 6,
+        "vusers.completed": 70,
+        "errors.ETIMEDOUT": 6
+      },
+      "rates": {
+        "http.request_rate": 15
+      },
+      "http.request_rate": null,
+      "firstCounterAt": 1681159320045,
+      "firstHistogramAt": 1681159320893,
+      "lastCounterAt": 1681159329983,
+      "lastHistogramAt": 1681159329982,
+      "firstMetricAt": 1681159320045,
+      "lastMetricAt": 1681159329983,
+      "period": "1681159320000",
+      "summaries": {
+        "http.response_time": {
+          "min": 161,
+          "max": 18009,
+          "count": 70,
+          "p50": 3197.8,
+          "median": 3197.8,
+          "p75": 6312.2,
+          "p90": 9416.8,
+          "p95": 12459.8,
+          "p99": 14332.3,
+          "p999": 14332.3
+        },
+        "vusers.session_length": {
+          "min": 313,
+          "max": 18167.5,
+          "count": 70,
+          "p50": 3395.5,
+          "median": 3395.5,
+          "p75": 6439.7,
+          "p90": 9607.1,
+          "p95": 12459.8,
+          "p99": 14621.8,
+          "p999": 14621.8
+        }
+      },
+      "histograms": {
+        "http.response_time": {
+          "min": 161,
+          "max": 18009,
+          "count": 70,
+          "p50": 3197.8,
+          "median": 3197.8,
+          "p75": 6312.2,
+          "p90": 9416.8,
+          "p95": 12459.8,
+          "p99": 14332.3,
+          "p999": 14332.3
+        },
+        "vusers.session_length": {
+          "min": 313,
+          "max": 18167.5,
+          "count": 70,
+          "p50": 3395.5,
+          "median": 3395.5,
+          "p75": 6439.7,
+          "p90": 9607.1,
+          "p95": 12459.8,
+          "p99": 14621.8,
+          "p999": 14621.8
+        }
+      }
+    },
+    {
+      "counters": {
+        "vusers.skipped": 124,
+        "http.codes.404": 72,
+        "http.responses": 72,
+        "vusers.failed": 6,
+        "vusers.completed": 72,
+        "vusers.created_by_name.Homepage": 76,
+        "vusers.created": 76,
+        "http.requests": 76,
+        "errors.ETIMEDOUT": 6
+      },
+      "rates": {
+        "http.request_rate": 14
+      },
+      "http.request_rate": null,
+      "firstCounterAt": 1681159330045,
+      "firstHistogramAt": 1681159330185,
+      "lastCounterAt": 1681159339988,
+      "lastHistogramAt": 1681159339988,
+      "firstMetricAt": 1681159330045,
+      "lastMetricAt": 1681159339988,
+      "period": "1681159330000",
+      "summaries": {
+        "http.response_time": {
+          "min": 166,
+          "max": 19592,
+          "count": 72,
+          "p50": 2231,
+          "median": 2231,
+          "p75": 7865.6,
+          "p90": 11501.8,
+          "p95": 14621.8,
+          "p99": 19737.6,
+          "p999": 19737.6
+        },
+        "vusers.session_length": {
+          "min": 312.5,
+          "max": 19740.2,
+          "count": 72,
+          "p50": 2416.8,
+          "median": 2416.8,
+          "p75": 7865.6,
+          "p90": 11501.8,
+          "p95": 14621.8,
+          "p99": 19737.6,
+          "p999": 19737.6
+        }
+      },
+      "histograms": {
+        "http.response_time": {
+          "min": 166,
+          "max": 19592,
+          "count": 72,
+          "p50": 2231,
+          "median": 2231,
+          "p75": 7865.6,
+          "p90": 11501.8,
+          "p95": 14621.8,
+          "p99": 19737.6,
+          "p999": 19737.6
+        },
+        "vusers.session_length": {
+          "min": 312.5,
+          "max": 19740.2,
+          "count": 72,
+          "p50": 2416.8,
+          "median": 2416.8,
+          "p75": 7865.6,
+          "p90": 11501.8,
+          "p95": 14621.8,
+          "p99": 19737.6,
+          "p999": 19737.6
+        }
+      }
+    },
+    {
+      "counters": {
+        "vusers.skipped": 122,
+        "http.codes.404": 72,
+        "http.responses": 72,
+        "vusers.failed": 5,
+        "vusers.completed": 72,
+        "vusers.created_by_name.Homepage": 78,
+        "vusers.created": 78,
+        "http.requests": 78,
+        "errors.ETIMEDOUT": 5
+      },
+      "rates": {
+        "http.request_rate": 15
+      },
+      "http.request_rate": null,
+      "firstCounterAt": 1681159340018,
+      "firstHistogramAt": 1681159340018,
+      "lastCounterAt": 1681159349997,
+      "lastHistogramAt": 1681159349997,
+      "firstMetricAt": 1681159340018,
+      "lastMetricAt": 1681159349997,
+      "period": "1681159340000",
+      "summaries": {
+        "http.response_time": {
+          "min": 166,
+          "max": 19578,
+          "count": 72,
+          "p50": 3678.4,
+          "median": 3678.4,
+          "p75": 7865.6,
+          "p90": 11274.1,
+          "p95": 14048.5,
+          "p99": 19737.6,
+          "p999": 19737.6
+        },
+        "vusers.session_length": {
+          "min": 313.7,
+          "max": 19731.1,
+          "count": 72,
+          "p50": 3828.5,
+          "median": 3828.5,
+          "p75": 8024.5,
+          "p90": 11501.8,
+          "p95": 14048.5,
+          "p99": 19737.6,
+          "p999": 19737.6
+        }
+      },
+      "histograms": {
+        "http.response_time": {
+          "min": 166,
+          "max": 19578,
+          "count": 72,
+          "p50": 3678.4,
+          "median": 3678.4,
+          "p75": 7865.6,
+          "p90": 11274.1,
+          "p95": 14048.5,
+          "p99": 19737.6,
+          "p999": 19737.6
+        },
+        "vusers.session_length": {
+          "min": 313.7,
+          "max": 19731.1,
+          "count": 72,
+          "p50": 3828.5,
+          "median": 3828.5,
+          "p75": 8024.5,
+          "p90": 11501.8,
+          "p95": 14048.5,
+          "p99": 19737.6,
+          "p999": 19737.6
+        }
+      }
+    },
+    {
+      "counters": {
+        "vusers.skipped": 122,
+        "http.codes.404": 75,
+        "http.responses": 75,
+        "vusers.failed": 3,
+        "vusers.completed": 75,
+        "vusers.created_by_name.Homepage": 78,
+        "vusers.created": 78,
+        "http.requests": 78,
+        "errors.ETIMEDOUT": 3
+      },
+      "rates": {
+        "http.request_rate": 17
+      },
+      "http.request_rate": null,
+      "firstCounterAt": 1681159350021,
+      "firstHistogramAt": 1681159350021,
+      "lastCounterAt": 1681159359985,
+      "lastHistogramAt": 1681159359981,
+      "firstMetricAt": 1681159350021,
+      "lastMetricAt": 1681159359985,
+      "period": "1681159350000",
+      "summaries": {
+        "http.response_time": {
+          "min": 164,
+          "max": 17531,
+          "count": 75,
+          "p50": 2725,
+          "median": 2725,
+          "p75": 6838,
+          "p90": 12459.8,
+          "p95": 14048.5,
+          "p99": 16159.7,
+          "p999": 16159.7
+        },
+        "vusers.session_length": {
+          "min": 310.9,
+          "max": 17701.7,
+          "count": 75,
+          "p50": 2836.2,
+          "median": 2836.2,
+          "p75": 6976.1,
+          "p90": 12459.8,
+          "p95": 14048.5,
+          "p99": 16159.7,
+          "p999": 16159.7
+        }
+      },
+      "histograms": {
+        "http.response_time": {
+          "min": 164,
+          "max": 17531,
+          "count": 75,
+          "p50": 2725,
+          "median": 2725,
+          "p75": 6838,
+          "p90": 12459.8,
+          "p95": 14048.5,
+          "p99": 16159.7,
+          "p999": 16159.7
+        },
+        "vusers.session_length": {
+          "min": 310.9,
+          "max": 17701.7,
+          "count": 75,
+          "p50": 2836.2,
+          "median": 2836.2,
+          "p75": 6976.1,
+          "p90": 12459.8,
+          "p95": 14048.5,
+          "p99": 16159.7,
+          "p999": 16159.7
+        }
+      }
+    },
+    {
+      "counters": {
+        "vusers.created_by_name.Homepage": 81,
+        "vusers.created": 81,
+        "http.requests": 81,
+        "vusers.skipped": 119,
+        "http.codes.404": 74,
+        "http.responses": 74,
+        "vusers.failed": 8,
+        "vusers.completed": 74,
+        "errors.ETIMEDOUT": 8
+      },
+      "rates": {
+        "http.request_rate": 15
+      },
+      "http.request_rate": null,
+      "firstCounterAt": 1681159360046,
+      "firstHistogramAt": 1681159360107,
+      "lastCounterAt": 1681159369987,
+      "lastHistogramAt": 1681159369987,
+      "firstMetricAt": 1681159360046,
+      "lastMetricAt": 1681159369987,
+      "period": "1681159360000",
+      "summaries": {
+        "http.response_time": {
+          "min": 166,
+          "max": 18448,
+          "count": 74,
+          "p50": 1720.2,
+          "median": 1720.2,
+          "p75": 4770.6,
+          "p90": 8352,
+          "p95": 15526,
+          "p99": 17859.2,
+          "p999": 17859.2
+        },
+        "vusers.session_length": {
+          "min": 314.2,
+          "max": 18596.3,
+          "count": 74,
+          "p50": 1863.5,
+          "median": 1863.5,
+          "p75": 4867,
+          "p90": 8520.7,
+          "p95": 15526,
+          "p99": 18220,
+          "p999": 18220
+        }
+      },
+      "histograms": {
+        "http.response_time": {
+          "min": 166,
+          "max": 18448,
+          "count": 74,
+          "p50": 1720.2,
+          "median": 1720.2,
+          "p75": 4770.6,
+          "p90": 8352,
+          "p95": 15526,
+          "p99": 17859.2,
+          "p999": 17859.2
+        },
+        "vusers.session_length": {
+          "min": 314.2,
+          "max": 18596.3,
+          "count": 74,
+          "p50": 1863.5,
+          "median": 1863.5,
+          "p75": 4867,
+          "p90": 8520.7,
+          "p95": 15526,
+          "p99": 18220,
+          "p999": 18220
+        }
+      }
+    },
+    {
+      "counters": {
+        "vusers.skipped": 121,
+        "http.codes.404": 71,
+        "http.responses": 71,
+        "vusers.failed": 7,
+        "vusers.completed": 71,
+        "vusers.created_by_name.Homepage": 79,
+        "vusers.created": 79,
+        "http.requests": 79,
+        "errors.ETIMEDOUT": 7
+      },
+      "rates": {
+        "http.request_rate": 14
+      },
+      "http.request_rate": null,
+      "firstCounterAt": 1681159370046,
+      "firstHistogramAt": 1681159370050,
+      "lastCounterAt": 1681159379985,
+      "lastHistogramAt": 1681159379966,
+      "firstMetricAt": 1681159370046,
+      "lastMetricAt": 1681159379985,
+      "period": "1681159370000",
+      "summaries": {
+        "http.response_time": {
+          "min": 163,
+          "max": 18508,
+          "count": 71,
+          "p50": 2276.1,
+          "median": 2276.1,
+          "p75": 7260.8,
+          "p90": 10832,
+          "p95": 12459.8,
+          "p99": 14621.8,
+          "p999": 14621.8
+        },
+        "vusers.session_length": {
+          "min": 309.1,
+          "max": 18659.7,
+          "count": 71,
+          "p50": 2416.8,
+          "median": 2416.8,
+          "p75": 7407.5,
+          "p90": 11050.8,
+          "p95": 12459.8,
+          "p99": 14621.8,
+          "p999": 14621.8
+        }
+      },
+      "histograms": {
+        "http.response_time": {
+          "min": 163,
+          "max": 18508,
+          "count": 71,
+          "p50": 2276.1,
+          "median": 2276.1,
+          "p75": 7260.8,
+          "p90": 10832,
+          "p95": 12459.8,
+          "p99": 14621.8,
+          "p999": 14621.8
+        },
+        "vusers.session_length": {
+          "min": 309.1,
+          "max": 18659.7,
+          "count": 71,
+          "p50": 2416.8,
+          "median": 2416.8,
+          "p75": 7407.5,
+          "p90": 11050.8,
+          "p95": 12459.8,
+          "p99": 14621.8,
+          "p999": 14621.8
+        }
+      }
+    },
+    {
+      "counters": {
+        "vusers.skipped": 124,
+        "http.codes.404": 74,
+        "http.responses": 74,
+        "vusers.failed": 3,
+        "vusers.completed": 74,
+        "vusers.created_by_name.Homepage": 76,
+        "vusers.created": 76,
+        "http.requests": 76,
+        "errors.ETIMEDOUT": 3
+      },
+      "rates": {
+        "http.request_rate": 17
+      },
+      "http.request_rate": null,
+      "firstCounterAt": 1681159380046,
+      "firstHistogramAt": 1681159380123,
+      "lastCounterAt": 1681159389984,
+      "lastHistogramAt": 1681159389949,
+      "firstMetricAt": 1681159380046,
+      "lastMetricAt": 1681159389984,
+      "period": "1681159380000",
+      "summaries": {
+        "http.response_time": {
+          "min": 159,
+          "max": 17442,
+          "count": 74,
+          "p50": 2671,
+          "median": 2671,
+          "p75": 7407.5,
+          "p90": 11971.2,
+          "p95": 14332.3,
+          "p99": 15526,
+          "p999": 15526
+        },
+        "vusers.session_length": {
+          "min": 304.3,
+          "max": 17600.3,
+          "count": 74,
+          "p50": 2836.2,
+          "median": 2836.2,
+          "p75": 7557.1,
+          "p90": 12213.1,
+          "p95": 14621.8,
+          "p99": 15526,
+          "p999": 15526
+        }
+      },
+      "histograms": {
+        "http.response_time": {
+          "min": 159,
+          "max": 17442,
+          "count": 74,
+          "p50": 2671,
+          "median": 2671,
+          "p75": 7407.5,
+          "p90": 11971.2,
+          "p95": 14332.3,
+          "p99": 15526,
+          "p999": 15526
+        },
+        "vusers.session_length": {
+          "min": 304.3,
+          "max": 17600.3,
+          "count": 74,
+          "p50": 2836.2,
+          "median": 2836.2,
+          "p75": 7557.1,
+          "p90": 12213.1,
+          "p95": 14621.8,
+          "p99": 15526,
+          "p999": 15526
+        }
+      }
+    },
+    {
+      "counters": {
+        "vusers.created_by_name.Homepage": 81,
+        "vusers.created": 81,
+        "http.requests": 81,
+        "vusers.skipped": 119,
+        "http.codes.404": 74,
+        "http.responses": 74,
+        "vusers.failed": 6,
+        "vusers.completed": 74,
+        "errors.ETIMEDOUT": 6
+      },
+      "rates": {
+        "http.request_rate": 15
+      },
+      "http.request_rate": null,
+      "firstCounterAt": 1681159390046,
+      "firstHistogramAt": 1681159390217,
+      "lastCounterAt": 1681159399996,
+      "lastHistogramAt": 1681159399996,
+      "firstMetricAt": 1681159390046,
+      "lastMetricAt": 1681159399996,
+      "period": "1681159390000",
+      "summaries": {
+        "http.response_time": {
+          "min": 164,
+          "max": 19568,
+          "count": 74,
+          "p50": 2231,
+          "median": 2231,
+          "p75": 5826.9,
+          "p90": 9416.8,
+          "p95": 14332.3,
+          "p99": 16486.1,
+          "p999": 16486.1
+        },
+        "vusers.session_length": {
+          "min": 309.1,
+          "max": 19714.5,
+          "count": 74,
+          "p50": 2369,
+          "median": 2369,
+          "p75": 5944.6,
+          "p90": 9607.1,
+          "p95": 14621.8,
+          "p99": 16819.2,
+          "p999": 16819.2
+        }
+      },
+      "histograms": {
+        "http.response_time": {
+          "min": 164,
+          "max": 19568,
+          "count": 74,
+          "p50": 2231,
+          "median": 2231,
+          "p75": 5826.9,
+          "p90": 9416.8,
+          "p95": 14332.3,
+          "p99": 16486.1,
+          "p999": 16486.1
+        },
+        "vusers.session_length": {
+          "min": 309.1,
+          "max": 19714.5,
+          "count": 74,
+          "p50": 2369,
+          "median": 2369,
+          "p75": 5944.6,
+          "p90": 9607.1,
+          "p95": 14621.8,
+          "p99": 16819.2,
+          "p999": 16819.2
+        }
+      }
+    },
+    {
+      "counters": {
+        "vusers.skipped": 125,
+        "http.codes.404": 67,
+        "http.responses": 67,
+        "vusers.failed": 3,
+        "vusers.completed": 67,
+        "vusers.created_by_name.Homepage": 75,
+        "vusers.created": 75,
+        "http.requests": 75,
+        "errors.ETIMEDOUT": 3
+      },
+      "rates": {
+        "http.request_rate": 14
+      },
+      "http.request_rate": null,
+      "firstCounterAt": 1681159400046,
+      "firstHistogramAt": 1681159400074,
+      "lastCounterAt": 1681159409984,
+      "lastHistogramAt": 1681159408992,
+      "firstMetricAt": 1681159400046,
+      "lastMetricAt": 1681159409984,
+      "period": "1681159400000",
+      "summaries": {
+        "http.response_time": {
+          "min": 160,
+          "max": 19618,
+          "count": 67,
+          "p50": 2725,
+          "median": 2725,
+          "p75": 6312.2,
+          "p90": 11971.2,
+          "p95": 14332.3,
+          "p99": 16486.1,
+          "p999": 16486.1
+        },
+        "vusers.session_length": {
+          "min": 306.3,
+          "max": 19772.5,
+          "count": 67,
+          "p50": 2893.5,
+          "median": 2893.5,
+          "p75": 6439.7,
+          "p90": 11971.2,
+          "p95": 14621.8,
+          "p99": 16819.2,
+          "p999": 16819.2
+        }
+      },
+      "histograms": {
+        "http.response_time": {
+          "min": 160,
+          "max": 19618,
+          "count": 67,
+          "p50": 2725,
+          "median": 2725,
+          "p75": 6312.2,
+          "p90": 11971.2,
+          "p95": 14332.3,
+          "p99": 16486.1,
+          "p999": 16486.1
+        },
+        "vusers.session_length": {
+          "min": 306.3,
+          "max": 19772.5,
+          "count": 67,
+          "p50": 2893.5,
+          "median": 2893.5,
+          "p75": 6439.7,
+          "p90": 11971.2,
+          "p95": 14621.8,
+          "p99": 16819.2,
+          "p999": 16819.2
+        }
+      }
+    },
+    {
+      "counters": {
+        "vusers.skipped": 119,
+        "http.codes.404": 77,
+        "http.responses": 77,
+        "vusers.failed": 7,
+        "vusers.completed": 77,
+        "vusers.created_by_name.Homepage": 81,
+        "vusers.created": 81,
+        "http.requests": 81,
+        "errors.ETIMEDOUT": 7
+      },
+      "rates": {
+        "http.request_rate": 17
+      },
+      "http.request_rate": null,
+      "firstCounterAt": 1681159410046,
+      "firstHistogramAt": 1681159410165,
+      "lastCounterAt": 1681159419986,
+      "lastHistogramAt": 1681159419937,
+      "firstMetricAt": 1681159410046,
+      "lastMetricAt": 1681159419986,
+      "period": "1681159410000",
+      "summaries": {
+        "http.response_time": {
+          "min": 162,
+          "max": 19000,
+          "count": 77,
+          "p50": 2725,
+          "median": 2725,
+          "p75": 5272.4,
+          "p90": 10407.3,
+          "p95": 13770.3,
+          "p99": 18588.1,
+          "p999": 18588.1
+        },
+        "vusers.session_length": {
+          "min": 309.4,
+          "max": 19151.1,
+          "count": 77,
+          "p50": 2836.2,
+          "median": 2836.2,
+          "p75": 5487.5,
+          "p90": 10407.3,
+          "p95": 14048.5,
+          "p99": 18588.1,
+          "p999": 18588.1
+        }
+      },
+      "histograms": {
+        "http.response_time": {
+          "min": 162,
+          "max": 19000,
+          "count": 77,
+          "p50": 2725,
+          "median": 2725,
+          "p75": 5272.4,
+          "p90": 10407.3,
+          "p95": 13770.3,
+          "p99": 18588.1,
+          "p999": 18588.1
+        },
+        "vusers.session_length": {
+          "min": 309.4,
+          "max": 19151.1,
+          "count": 77,
+          "p50": 2836.2,
+          "median": 2836.2,
+          "p75": 5487.5,
+          "p90": 10407.3,
+          "p95": 14048.5,
+          "p99": 18588.1,
+          "p999": 18588.1
+        }
+      }
+    },
+    {
+      "counters": {
+        "vusers.skipped": 118,
+        "http.codes.404": 81,
+        "http.responses": 81,
+        "vusers.failed": 6,
+        "vusers.completed": 81,
+        "vusers.created_by_name.Homepage": 82,
+        "vusers.created": 82,
+        "http.requests": 82,
+        "errors.ETIMEDOUT": 6
+      },
+      "rates": {
+        "http.request_rate": 12
+      },
+      "http.request_rate": null,
+      "firstCounterAt": 1681159420000,
+      "firstHistogramAt": 1681159420000,
+      "lastCounterAt": 1681159429988,
+      "lastHistogramAt": 1681159429972,
+      "firstMetricAt": 1681159420000,
+      "lastMetricAt": 1681159429988,
+      "period": "1681159420000",
+      "summaries": {
+        "http.response_time": {
+          "min": 165,
+          "max": 19505,
+          "count": 81,
+          "p50": 1720.2,
+          "median": 1720.2,
+          "p75": 6312.2,
+          "p90": 10832,
+          "p95": 14332.3,
+          "p99": 16486.1,
+          "p999": 16486.1
+        },
+        "vusers.session_length": {
+          "min": 314.7,
+          "max": 19655.9,
+          "count": 81,
+          "p50": 1863.5,
+          "median": 1863.5,
+          "p75": 6439.7,
+          "p90": 11050.8,
+          "p95": 14621.8,
+          "p99": 16486.1,
+          "p999": 16486.1
+        }
+      },
+      "histograms": {
+        "http.response_time": {
+          "min": 165,
+          "max": 19505,
+          "count": 81,
+          "p50": 1720.2,
+          "median": 1720.2,
+          "p75": 6312.2,
+          "p90": 10832,
+          "p95": 14332.3,
+          "p99": 16486.1,
+          "p999": 16486.1
+        },
+        "vusers.session_length": {
+          "min": 314.7,
+          "max": 19655.9,
+          "count": 81,
+          "p50": 1863.5,
+          "median": 1863.5,
+          "p75": 6439.7,
+          "p90": 11050.8,
+          "p95": 14621.8,
+          "p99": 16486.1,
+          "p999": 16486.1
+        }
+      }
+    },
+    {
+      "counters": {
+        "vusers.skipped": 118,
+        "http.codes.404": 73,
+        "http.responses": 73,
+        "vusers.failed": 6,
+        "vusers.completed": 73,
+        "vusers.created_by_name.Homepage": 82,
+        "vusers.created": 82,
+        "http.requests": 82,
+        "errors.ETIMEDOUT": 6
+      },
+      "rates": {
+        "http.request_rate": 13
+      },
+      "http.request_rate": null,
+      "firstCounterAt": 1681159430032,
+      "firstHistogramAt": 1681159430032,
+      "lastCounterAt": 1681159439991,
+      "lastHistogramAt": 1681159439991,
+      "firstMetricAt": 1681159430032,
+      "lastMetricAt": 1681159439991,
+      "period": "1681159430000",
+      "summaries": {
+        "http.response_time": {
+          "min": 170,
+          "max": 18993,
+          "count": 73,
+          "p50": 1720.2,
+          "median": 1720.2,
+          "p75": 7260.8,
+          "p90": 12459.8,
+          "p95": 14332.3,
+          "p99": 18588.1,
+          "p999": 18588.1
+        },
+        "vusers.session_length": {
+          "min": 321.9,
+          "max": 19145.9,
+          "count": 73,
+          "p50": 1863.5,
+          "median": 1863.5,
+          "p75": 7407.5,
+          "p90": 12459.8,
+          "p95": 14621.8,
+          "p99": 18588.1,
+          "p999": 18588.1
+        }
+      },
+      "histograms": {
+        "http.response_time": {
+          "min": 170,
+          "max": 18993,
+          "count": 73,
+          "p50": 1720.2,
+          "median": 1720.2,
+          "p75": 7260.8,
+          "p90": 12459.8,
+          "p95": 14332.3,
+          "p99": 18588.1,
+          "p999": 18588.1
+        },
+        "vusers.session_length": {
+          "min": 321.9,
+          "max": 19145.9,
+          "count": 73,
+          "p50": 1863.5,
+          "median": 1863.5,
+          "p75": 7407.5,
+          "p90": 12459.8,
+          "p95": 14621.8,
+          "p99": 18588.1,
+          "p999": 18588.1
+        }
+      }
+    },
+    {
+      "counters": {
+        "vusers.created_by_name.Homepage": 76,
+        "vusers.created": 76,
+        "http.requests": 76,
+        "vusers.skipped": 124,
+        "http.codes.404": 74,
+        "http.responses": 74,
+        "vusers.failed": 2,
+        "vusers.completed": 74,
+        "errors.ETIMEDOUT": 2
+      },
+      "rates": {
+        "http.request_rate": 15
+      },
+      "http.request_rate": null,
+      "firstCounterAt": 1681159440007,
+      "firstHistogramAt": 1681159440007,
+      "lastCounterAt": 1681159449989,
+      "lastHistogramAt": 1681159449989,
+      "firstMetricAt": 1681159440007,
+      "lastMetricAt": 1681159449989,
+      "period": "1681159440000",
+      "summaries": {
+        "http.response_time": {
+          "min": 161,
+          "max": 19498,
+          "count": 74,
+          "p50": 2725,
+          "median": 2725,
+          "p75": 5826.9,
+          "p90": 9801.2,
+          "p95": 13497.6,
+          "p99": 19346.7,
+          "p999": 19346.7
+        },
+        "vusers.session_length": {
+          "min": 317.2,
+          "max": 19644.3,
+          "count": 74,
+          "p50": 2836.2,
+          "median": 2836.2,
+          "p75": 5944.6,
+          "p90": 9999.2,
+          "p95": 13497.6,
+          "p99": 19737.6,
+          "p999": 19737.6
+        }
+      },
+      "histograms": {
+        "http.response_time": {
+          "min": 161,
+          "max": 19498,
+          "count": 74,
+          "p50": 2725,
+          "median": 2725,
+          "p75": 5826.9,
+          "p90": 9801.2,
+          "p95": 13497.6,
+          "p99": 19346.7,
+          "p999": 19346.7
+        },
+        "vusers.session_length": {
+          "min": 317.2,
+          "max": 19644.3,
+          "count": 74,
+          "p50": 2836.2,
+          "median": 2836.2,
+          "p75": 5944.6,
+          "p90": 9999.2,
+          "p95": 13497.6,
+          "p99": 19737.6,
+          "p999": 19737.6
+        }
+      }
+    },
+    {
+      "counters": {
+        "vusers.skipped": 120,
+        "http.codes.404": 75,
+        "http.responses": 75,
+        "vusers.failed": 5,
+        "vusers.completed": 75,
+        "vusers.created_by_name.Homepage": 80,
+        "vusers.created": 80,
+        "http.requests": 80,
+        "errors.ETIMEDOUT": 5
+      },
+      "rates": {
+        "http.request_rate": 16
+      },
+      "http.request_rate": null,
+      "firstCounterAt": 1681159450035,
+      "firstHistogramAt": 1681159450035,
+      "lastCounterAt": 1681159459984,
+      "lastHistogramAt": 1681159459953,
+      "firstMetricAt": 1681159450035,
+      "lastMetricAt": 1681159459984,
+      "period": "1681159450000",
+      "summaries": {
+        "http.response_time": {
+          "min": 161,
+          "max": 19524,
+          "count": 75,
+          "p50": 1720.2,
+          "median": 1720.2,
+          "p75": 8868.4,
+          "p90": 13770.3,
+          "p95": 16486.1,
+          "p99": 18963.6,
+          "p999": 18963.6
+        },
+        "vusers.session_length": {
+          "min": 317.1,
+          "max": 19670.8,
+          "count": 75,
+          "p50": 1863.5,
+          "median": 1863.5,
+          "p75": 8868.4,
+          "p90": 14048.5,
+          "p95": 16486.1,
+          "p99": 19346.7,
+          "p999": 19346.7
+        }
+      },
+      "histograms": {
+        "http.response_time": {
+          "min": 161,
+          "max": 19524,
+          "count": 75,
+          "p50": 1720.2,
+          "median": 1720.2,
+          "p75": 8868.4,
+          "p90": 13770.3,
+          "p95": 16486.1,
+          "p99": 18963.6,
+          "p999": 18963.6
+        },
+        "vusers.session_length": {
+          "min": 317.1,
+          "max": 19670.8,
+          "count": 75,
+          "p50": 1863.5,
+          "median": 1863.5,
+          "p75": 8868.4,
+          "p90": 14048.5,
+          "p95": 16486.1,
+          "p99": 19346.7,
+          "p999": 19346.7
+        }
+      }
+    },
+    {
+      "counters": {
+        "vusers.skipped": 121,
+        "http.codes.404": 76,
+        "http.responses": 76,
+        "vusers.failed": 4,
+        "vusers.completed": 76,
+        "vusers.created_by_name.Homepage": 79,
+        "vusers.created": 79,
+        "http.requests": 79,
+        "errors.ETIMEDOUT": 4
+      },
+      "rates": {
+        "http.request_rate": 15
+      },
+      "http.request_rate": null,
+      "firstCounterAt": 1681159460046,
+      "firstHistogramAt": 1681159460155,
+      "lastCounterAt": 1681159469984,
+      "lastHistogramAt": 1681159469975,
+      "firstMetricAt": 1681159460046,
+      "lastMetricAt": 1681159469984,
+      "period": "1681159460000",
+      "summaries": {
+        "http.response_time": {
+          "min": 163,
+          "max": 19494,
+          "count": 76,
+          "p50": 2671,
+          "median": 2671,
+          "p75": 7865.6,
+          "p90": 10407.3,
+          "p95": 12213.1,
+          "p99": 17859.2,
+          "p999": 17859.2
+        },
+        "vusers.session_length": {
+          "min": 315.2,
+          "max": 19658.9,
+          "count": 76,
+          "p50": 2836.2,
+          "median": 2836.2,
+          "p75": 8024.5,
+          "p90": 10617.5,
+          "p95": 12459.8,
+          "p99": 18220,
+          "p999": 18220
+        }
+      },
+      "histograms": {
+        "http.response_time": {
+          "min": 163,
+          "max": 19494,
+          "count": 76,
+          "p50": 2671,
+          "median": 2671,
+          "p75": 7865.6,
+          "p90": 10407.3,
+          "p95": 12213.1,
+          "p99": 17859.2,
+          "p999": 17859.2
+        },
+        "vusers.session_length": {
+          "min": 315.2,
+          "max": 19658.9,
+          "count": 76,
+          "p50": 2836.2,
+          "median": 2836.2,
+          "p75": 8024.5,
+          "p90": 10617.5,
+          "p95": 12459.8,
+          "p99": 18220,
+          "p999": 18220
+        }
+      }
+    },
+    {
+      "counters": {
+        "vusers.skipped": 122,
+        "http.codes.404": 70,
+        "http.responses": 70,
+        "vusers.failed": 7,
+        "vusers.completed": 70,
+        "vusers.created_by_name.Homepage": 78,
+        "vusers.created": 78,
+        "http.requests": 78,
+        "errors.ETIMEDOUT": 7
+      },
+      "rates": {
+        "http.request_rate": 15
+      },
+      "http.request_rate": null,
+      "firstCounterAt": 1681159470046,
+      "firstHistogramAt": 1681159470098,
+      "lastCounterAt": 1681159479986,
+      "lastHistogramAt": 1681159479986,
+      "firstMetricAt": 1681159470046,
+      "lastMetricAt": 1681159479986,
+      "period": "1681159470000",
+      "summaries": {
+        "http.response_time": {
+          "min": 163,
+          "max": 16503,
+          "count": 70,
+          "p50": 2231,
+          "median": 2231,
+          "p75": 5272.4,
+          "p90": 10832,
+          "p95": 14332.3,
+          "p99": 16486.1,
+          "p999": 16486.1
+        },
+        "vusers.session_length": {
+          "min": 310.4,
+          "max": 16661,
+          "count": 70,
+          "p50": 2369,
+          "median": 2369,
+          "p75": 5487.5,
+          "p90": 11050.8,
+          "p95": 14621.8,
+          "p99": 16486.1,
+          "p999": 16486.1
+        }
+      },
+      "histograms": {
+        "http.response_time": {
+          "min": 163,
+          "max": 16503,
+          "count": 70,
+          "p50": 2231,
+          "median": 2231,
+          "p75": 5272.4,
+          "p90": 10832,
+          "p95": 14332.3,
+          "p99": 16486.1,
+          "p999": 16486.1
+        },
+        "vusers.session_length": {
+          "min": 310.4,
+          "max": 16661,
+          "count": 70,
+          "p50": 2369,
+          "median": 2369,
+          "p75": 5487.5,
+          "p90": 11050.8,
+          "p95": 14621.8,
+          "p99": 16486.1,
+          "p999": 16486.1
+        }
+      }
+    },
+    {
+      "counters": {
+        "vusers.skipped": 114,
+        "errors.ETIMEDOUT": 3,
+        "vusers.failed": 3,
+        "vusers.created_by_name.Homepage": 86,
+        "vusers.created": 86,
+        "http.requests": 86,
+        "http.codes.404": 84,
+        "http.responses": 84,
+        "vusers.completed": 84
+      },
+      "rates": {
+        "http.request_rate": 15
+      },
+      "http.request_rate": null,
+      "firstCounterAt": 1681159480046,
+      "firstHistogramAt": 1681159480048,
+      "lastCounterAt": 1681159489986,
+      "lastHistogramAt": 1681159489964,
+      "firstMetricAt": 1681159480046,
+      "lastMetricAt": 1681159489986,
+      "period": "1681159480000",
+      "summaries": {
+        "http.response_time": {
+          "min": 161,
+          "max": 18018,
+          "count": 84,
+          "p50": 2186.8,
+          "median": 2186.8,
+          "p75": 6838,
+          "p90": 12459.8,
+          "p95": 16159.7,
+          "p99": 17505.6,
+          "p999": 17505.6
+        },
+        "vusers.session_length": {
+          "min": 319.8,
+          "max": 18165.9,
+          "count": 84,
+          "p50": 2369,
+          "median": 2369,
+          "p75": 6976.1,
+          "p90": 12711.5,
+          "p95": 16159.7,
+          "p99": 17859.2,
+          "p999": 17859.2
+        }
+      },
+      "histograms": {
+        "http.response_time": {
+          "min": 161,
+          "max": 18018,
+          "count": 84,
+          "p50": 2186.8,
+          "median": 2186.8,
+          "p75": 6838,
+          "p90": 12459.8,
+          "p95": 16159.7,
+          "p99": 17505.6,
+          "p999": 17505.6
+        },
+        "vusers.session_length": {
+          "min": 319.8,
+          "max": 18165.9,
+          "count": 84,
+          "p50": 2369,
+          "median": 2369,
+          "p75": 6976.1,
+          "p90": 12711.5,
+          "p95": 16159.7,
+          "p99": 17859.2,
+          "p999": 17859.2
+        }
+      }
+    },
+    {
+      "counters": {
+        "vusers.skipped": 118,
+        "http.codes.404": 77,
+        "http.responses": 77,
+        "vusers.failed": 4,
+        "vusers.completed": 77,
+        "vusers.created_by_name.Homepage": 82,
+        "vusers.created": 82,
+        "http.requests": 82,
+        "errors.ETIMEDOUT": 4
+      },
+      "rates": {
+        "http.request_rate": 14
+      },
+      "http.request_rate": null,
+      "firstCounterAt": 1681159490046,
+      "firstHistogramAt": 1681159490058,
+      "lastCounterAt": 1681159499984,
+      "lastHistogramAt": 1681159499952,
+      "firstMetricAt": 1681159490046,
+      "lastMetricAt": 1681159499984,
+      "period": "1681159490000",
+      "summaries": {
+        "http.response_time": {
+          "min": 164,
+          "max": 19583,
+          "count": 77,
+          "p50": 1686.1,
+          "median": 1686.1,
+          "p75": 6312.2,
+          "p90": 9416.8,
+          "p95": 12459.8,
+          "p99": 18963.6,
+          "p999": 18963.6
+        },
+        "vusers.session_length": {
+          "min": 312,
+          "max": 19733.1,
+          "count": 77,
+          "p50": 1826.6,
+          "median": 1826.6,
+          "p75": 6439.7,
+          "p90": 9416.8,
+          "p95": 12459.8,
+          "p99": 19346.7,
+          "p999": 19346.7
+        }
+      },
+      "histograms": {
+        "http.response_time": {
+          "min": 164,
+          "max": 19583,
+          "count": 77,
+          "p50": 1686.1,
+          "median": 1686.1,
+          "p75": 6312.2,
+          "p90": 9416.8,
+          "p95": 12459.8,
+          "p99": 18963.6,
+          "p999": 18963.6
+        },
+        "vusers.session_length": {
+          "min": 312,
+          "max": 19733.1,
+          "count": 77,
+          "p50": 1826.6,
+          "median": 1826.6,
+          "p75": 6439.7,
+          "p90": 9416.8,
+          "p95": 12459.8,
+          "p99": 19346.7,
+          "p999": 19346.7
+        }
+      }
+    },
+    {
+      "counters": {
+        "http.codes.404": 77,
+        "http.responses": 77,
+        "vusers.failed": 4,
+        "vusers.completed": 77,
+        "vusers.created_by_name.Homepage": 81,
+        "vusers.created": 81,
+        "http.requests": 81,
+        "vusers.skipped": 119,
+        "errors.ETIMEDOUT": 4
+      },
+      "rates": {
+        "http.request_rate": 14
+      },
+      "http.request_rate": null,
+      "firstCounterAt": 1681159500046,
+      "firstHistogramAt": 1681159500218,
+      "lastCounterAt": 1681159509984,
+      "lastHistogramAt": 1681159509935,
+      "firstMetricAt": 1681159500046,
+      "lastMetricAt": 1681159509984,
+      "period": "1681159500000",
+      "summaries": {
+        "http.response_time": {
+          "min": 163,
+          "max": 17017,
+          "count": 77,
+          "p50": 2231,
+          "median": 2231,
+          "p75": 8868.4,
+          "p90": 13497.6,
+          "p95": 16159.7,
+          "p99": 17158.9,
+          "p999": 17158.9
+        },
+        "vusers.session_length": {
+          "min": 311.8,
+          "max": 17164.9,
+          "count": 77,
+          "p50": 2369,
+          "median": 2369,
+          "p75": 8868.4,
+          "p90": 13770.3,
+          "p95": 16159.7,
+          "p99": 17158.9,
+          "p999": 17158.9
+        }
+      },
+      "histograms": {
+        "http.response_time": {
+          "min": 163,
+          "max": 17017,
+          "count": 77,
+          "p50": 2231,
+          "median": 2231,
+          "p75": 8868.4,
+          "p90": 13497.6,
+          "p95": 16159.7,
+          "p99": 17158.9,
+          "p999": 17158.9
+        },
+        "vusers.session_length": {
+          "min": 311.8,
+          "max": 17164.9,
+          "count": 77,
+          "p50": 2369,
+          "median": 2369,
+          "p75": 8868.4,
+          "p90": 13770.3,
+          "p95": 16159.7,
+          "p99": 17158.9,
+          "p999": 17158.9
+        }
+      }
+    },
+    {
+      "counters": {
+        "vusers.skipped": 122,
+        "http.codes.404": 75,
+        "http.responses": 75,
+        "vusers.failed": 2,
+        "vusers.completed": 75,
+        "vusers.created_by_name.Homepage": 78,
+        "vusers.created": 78,
+        "http.requests": 78,
+        "errors.ETIMEDOUT": 2
+      },
+      "rates": {
+        "http.request_rate": 14
+      },
+      "http.request_rate": null,
+      "firstCounterAt": 1681159510046,
+      "firstHistogramAt": 1681159510107,
+      "lastCounterAt": 1681159519995,
+      "lastHistogramAt": 1681159519995,
+      "firstMetricAt": 1681159510046,
+      "lastMetricAt": 1681159519995,
+      "period": "1681159510000",
+      "summaries": {
+        "http.response_time": {
+          "min": 164,
+          "max": 19514,
+          "count": 75,
+          "p50": 2780,
+          "median": 2780,
+          "p75": 7865.6,
+          "p90": 13497.6,
+          "p95": 15839.7,
+          "p99": 18588.1,
+          "p999": 18588.1
+        },
+        "vusers.session_length": {
+          "min": 312.7,
+          "max": 19672.5,
+          "count": 75,
+          "p50": 2951.9,
+          "median": 2951.9,
+          "p75": 8024.5,
+          "p90": 13770.3,
+          "p95": 16159.7,
+          "p99": 18588.1,
+          "p999": 18588.1
+        }
+      },
+      "histograms": {
+        "http.response_time": {
+          "min": 164,
+          "max": 19514,
+          "count": 75,
+          "p50": 2780,
+          "median": 2780,
+          "p75": 7865.6,
+          "p90": 13497.6,
+          "p95": 15839.7,
+          "p99": 18588.1,
+          "p999": 18588.1
+        },
+        "vusers.session_length": {
+          "min": 312.7,
+          "max": 19672.5,
+          "count": 75,
+          "p50": 2951.9,
+          "median": 2951.9,
+          "p75": 8024.5,
+          "p90": 13770.3,
+          "p95": 16159.7,
+          "p99": 18588.1,
+          "p999": 18588.1
+        }
+      }
+    },
+    {
+      "counters": {
+        "vusers.skipped": 119,
+        "http.codes.404": 77,
+        "http.responses": 77,
+        "vusers.failed": 5,
+        "vusers.completed": 77,
+        "vusers.created_by_name.Homepage": 81,
+        "vusers.created": 81,
+        "http.requests": 81,
+        "errors.ETIMEDOUT": 5
+      },
+      "rates": {
+        "http.request_rate": 15
+      },
+      "http.request_rate": null,
+      "firstCounterAt": 1681159520026,
+      "firstHistogramAt": 1681159520026,
+      "lastCounterAt": 1681159529987,
+      "lastHistogramAt": 1681159529914,
+      "firstMetricAt": 1681159520026,
+      "lastMetricAt": 1681159529987,
+      "period": "1681159520000",
+      "summaries": {
+        "http.response_time": {
+          "min": 166,
+          "max": 19531,
+          "count": 77,
+          "p50": 2231,
+          "median": 2231,
+          "p75": 7865.6,
+          "p90": 11274.1,
+          "p95": 13497.6,
+          "p99": 19346.7,
+          "p999": 19346.7
+        },
+        "vusers.session_length": {
+          "min": 318.9,
+          "max": 19690.3,
+          "count": 77,
+          "p50": 2416.8,
+          "median": 2416.8,
+          "p75": 8024.5,
+          "p90": 11501.8,
+          "p95": 13770.3,
+          "p99": 19737.6,
+          "p999": 19737.6
+        }
+      },
+      "histograms": {
+        "http.response_time": {
+          "min": 166,
+          "max": 19531,
+          "count": 77,
+          "p50": 2231,
+          "median": 2231,
+          "p75": 7865.6,
+          "p90": 11274.1,
+          "p95": 13497.6,
+          "p99": 19346.7,
+          "p999": 19346.7
+        },
+        "vusers.session_length": {
+          "min": 318.9,
+          "max": 19690.3,
+          "count": 77,
+          "p50": 2416.8,
+          "median": 2416.8,
+          "p75": 8024.5,
+          "p90": 11501.8,
+          "p95": 13770.3,
+          "p99": 19737.6,
+          "p999": 19737.6
+        }
+      }
+    },
+    {
+      "counters": {
+        "vusers.skipped": 122,
+        "http.codes.404": 79,
+        "http.responses": 79,
+        "vusers.failed": 1,
+        "vusers.completed": 79,
+        "vusers.created_by_name.Homepage": 78,
+        "vusers.created": 78,
+        "http.requests": 78,
+        "errors.ETIMEDOUT": 1
+      },
+      "rates": {
+        "http.request_rate": 16
+      },
+      "http.request_rate": null,
+      "firstCounterAt": 1681159530046,
+      "firstHistogramAt": 1681159530117,
+      "lastCounterAt": 1681159539984,
+      "lastHistogramAt": 1681159539963,
+      "firstMetricAt": 1681159530046,
+      "lastMetricAt": 1681159539984,
+      "period": "1681159530000",
+      "summaries": {
+        "http.response_time": {
+          "min": 162,
+          "max": 19559,
+          "count": 79,
+          "p50": 2725,
+          "median": 2725,
+          "p75": 7407.5,
+          "p90": 15526,
+          "p95": 17505.6,
+          "p99": 18588.1,
+          "p999": 18588.1
+        },
+        "vusers.session_length": {
+          "min": 308.1,
+          "max": 19720.7,
+          "count": 79,
+          "p50": 2893.5,
+          "median": 2893.5,
+          "p75": 7557.1,
+          "p90": 15526,
+          "p95": 17505.6,
+          "p99": 18963.6,
+          "p999": 18963.6
+        }
+      },
+      "histograms": {
+        "http.response_time": {
+          "min": 162,
+          "max": 19559,
+          "count": 79,
+          "p50": 2725,
+          "median": 2725,
+          "p75": 7407.5,
+          "p90": 15526,
+          "p95": 17505.6,
+          "p99": 18588.1,
+          "p999": 18588.1
+        },
+        "vusers.session_length": {
+          "min": 308.1,
+          "max": 19720.7,
+          "count": 79,
+          "p50": 2893.5,
+          "median": 2893.5,
+          "p75": 7557.1,
+          "p90": 15526,
+          "p95": 17505.6,
+          "p99": 18963.6,
+          "p999": 18963.6
+        }
+      }
+    },
+    {
+      "counters": {
+        "vusers.created_by_name.Homepage": 94,
+        "vusers.created": 94,
+        "http.requests": 94,
+        "vusers.skipped": 106,
+        "http.codes.404": 87,
+        "http.responses": 87,
+        "vusers.failed": 4,
+        "vusers.completed": 87,
+        "errors.ETIMEDOUT": 4
+      },
+      "rates": {
+        "http.request_rate": 15
+      },
+      "http.request_rate": null,
+      "firstCounterAt": 1681159540046,
+      "firstHistogramAt": 1681159540104,
+      "lastCounterAt": 1681159549986,
+      "lastHistogramAt": 1681159549984,
+      "firstMetricAt": 1681159540046,
+      "lastMetricAt": 1681159549986,
+      "period": "1681159540000",
+      "summaries": {
+        "http.response_time": {
+          "min": 164,
+          "max": 16493,
+          "count": 87,
+          "p50": 1720.2,
+          "median": 1720.2,
+          "p75": 5272.4,
+          "p90": 10407.3,
+          "p95": 12459.8,
+          "p99": 16159.7,
+          "p999": 16159.7
+        },
+        "vusers.session_length": {
+          "min": 310.1,
+          "max": 16641.1,
+          "count": 87,
+          "p50": 1863.5,
+          "median": 1863.5,
+          "p75": 5487.5,
+          "p90": 10617.5,
+          "p95": 12711.5,
+          "p99": 16486.1,
+          "p999": 16486.1
+        }
+      },
+      "histograms": {
+        "http.response_time": {
+          "min": 164,
+          "max": 16493,
+          "count": 87,
+          "p50": 1720.2,
+          "median": 1720.2,
+          "p75": 5272.4,
+          "p90": 10407.3,
+          "p95": 12459.8,
+          "p99": 16159.7,
+          "p999": 16159.7
+        },
+        "vusers.session_length": {
+          "min": 310.1,
+          "max": 16641.1,
+          "count": 87,
+          "p50": 1863.5,
+          "median": 1863.5,
+          "p75": 5487.5,
+          "p90": 10617.5,
+          "p95": 12711.5,
+          "p99": 16486.1,
+          "p999": 16486.1
+        }
+      }
+    },
+    {
+      "counters": {
+        "vusers.skipped": 118,
+        "http.codes.404": 73,
+        "http.responses": 73,
+        "vusers.failed": 7,
+        "vusers.completed": 73,
+        "vusers.created_by_name.Homepage": 82,
+        "vusers.created": 82,
+        "http.requests": 82,
+        "errors.ETIMEDOUT": 7
+      },
+      "rates": {
+        "http.request_rate": 15
+      },
+      "http.request_rate": null,
+      "firstCounterAt": 1681159550045,
+      "firstHistogramAt": 1681159550045,
+      "lastCounterAt": 1681159559984,
+      "lastHistogramAt": 1681159559955,
+      "firstMetricAt": 1681159550045,
+      "lastMetricAt": 1681159559984,
+      "period": "1681159550000",
+      "summaries": {
+        "http.response_time": {
+          "min": 164,
+          "max": 19499,
+          "count": 73,
+          "p50": 2231,
+          "median": 2231,
+          "p75": 5826.9,
+          "p90": 11274.1,
+          "p95": 12459.8,
+          "p99": 19346.7,
+          "p999": 19346.7
+        },
+        "vusers.session_length": {
+          "min": 315.6,
+          "max": 19643.4,
+          "count": 73,
+          "p50": 2369,
+          "median": 2369,
+          "p75": 5944.6,
+          "p90": 11501.8,
+          "p95": 12459.8,
+          "p99": 19346.7,
+          "p999": 19346.7
+        }
+      },
+      "histograms": {
+        "http.response_time": {
+          "min": 164,
+          "max": 19499,
+          "count": 73,
+          "p50": 2231,
+          "median": 2231,
+          "p75": 5826.9,
+          "p90": 11274.1,
+          "p95": 12459.8,
+          "p99": 19346.7,
+          "p999": 19346.7
+        },
+        "vusers.session_length": {
+          "min": 315.6,
+          "max": 19643.4,
+          "count": 73,
+          "p50": 2369,
+          "median": 2369,
+          "p75": 5944.6,
+          "p90": 11501.8,
+          "p95": 12459.8,
+          "p99": 19346.7,
+          "p999": 19346.7
+        }
+      }
+    },
+    {
+      "counters": {
+        "vusers.skipped": 123,
+        "http.codes.404": 76,
+        "http.responses": 76,
+        "vusers.failed": 5,
+        "vusers.completed": 76,
+        "vusers.created_by_name.Homepage": 77,
+        "vusers.created": 77,
+        "http.requests": 77,
+        "errors.ETIMEDOUT": 5
+      },
+      "rates": {
+        "http.request_rate": 11
+      },
+      "http.request_rate": null,
+      "firstCounterAt": 1681159560034,
+      "firstHistogramAt": 1681159560034,
+      "lastCounterAt": 1681159569993,
+      "lastHistogramAt": 1681159569993,
+      "firstMetricAt": 1681159560034,
+      "lastMetricAt": 1681159569993,
+      "period": "1681159560000",
+      "summaries": {
+        "http.response_time": {
+          "min": 167,
+          "max": 17071,
+          "count": 76,
+          "p50": 1790.4,
+          "median": 1790.4,
+          "p75": 5378.9,
+          "p90": 11971.2,
+          "p95": 15526,
+          "p99": 16486.1,
+          "p999": 16486.1
+        },
+        "vusers.session_length": {
+          "min": 315.4,
+          "max": 17225.3,
+          "count": 76,
+          "p50": 1939.5,
+          "median": 1939.5,
+          "p75": 5487.5,
+          "p90": 11971.2,
+          "p95": 15526,
+          "p99": 16819.2,
+          "p999": 16819.2
+        }
+      },
+      "histograms": {
+        "http.response_time": {
+          "min": 167,
+          "max": 17071,
+          "count": 76,
+          "p50": 1790.4,
+          "median": 1790.4,
+          "p75": 5378.9,
+          "p90": 11971.2,
+          "p95": 15526,
+          "p99": 16486.1,
+          "p999": 16486.1
+        },
+        "vusers.session_length": {
+          "min": 315.4,
+          "max": 17225.3,
+          "count": 76,
+          "p50": 1939.5,
+          "median": 1939.5,
+          "p75": 5487.5,
+          "p90": 11971.2,
+          "p95": 15526,
+          "p99": 16819.2,
+          "p999": 16819.2
+        }
+      }
+    },
+    {
+      "counters": {
+        "vusers.skipped": 119,
+        "http.codes.404": 73,
+        "http.responses": 73,
+        "vusers.failed": 4,
+        "vusers.completed": 73,
+        "vusers.created_by_name.Homepage": 81,
+        "vusers.created": 81,
+        "http.requests": 81,
+        "errors.ETIMEDOUT": 4
+      },
+      "rates": {
+        "http.request_rate": 14
+      },
+      "http.request_rate": null,
+      "firstCounterAt": 1681159570046,
+      "firstHistogramAt": 1681159570070,
+      "lastCounterAt": 1681159579984,
+      "lastHistogramAt": 1681159579933,
+      "firstMetricAt": 1681159570046,
+      "lastMetricAt": 1681159579984,
+      "period": "1681159570000",
+      "summaries": {
+        "http.response_time": {
+          "min": 173,
+          "max": 19130,
+          "count": 73,
+          "p50": 4231.1,
+          "median": 4231.1,
+          "p75": 9230.4,
+          "p90": 13497.6,
+          "p95": 16819.2,
+          "p99": 18963.6,
+          "p999": 18963.6
+        },
+        "vusers.session_length": {
+          "min": 321.9,
+          "max": 19276.1,
+          "count": 73,
+          "p50": 4403.8,
+          "median": 4403.8,
+          "p75": 9416.8,
+          "p90": 13497.6,
+          "p95": 16819.2,
+          "p99": 19346.7,
+          "p999": 19346.7
+        }
+      },
+      "histograms": {
+        "http.response_time": {
+          "min": 173,
+          "max": 19130,
+          "count": 73,
+          "p50": 4231.1,
+          "median": 4231.1,
+          "p75": 9230.4,
+          "p90": 13497.6,
+          "p95": 16819.2,
+          "p99": 18963.6,
+          "p999": 18963.6
+        },
+        "vusers.session_length": {
+          "min": 321.9,
+          "max": 19276.1,
+          "count": 73,
+          "p50": 4403.8,
+          "median": 4403.8,
+          "p75": 9416.8,
+          "p90": 13497.6,
+          "p95": 16819.2,
+          "p99": 19346.7,
+          "p999": 19346.7
+        }
+      }
+    },
+    {
+      "counters": {
+        "http.codes.404": 79,
+        "http.responses": 79,
+        "vusers.failed": 1,
+        "vusers.completed": 79,
+        "vusers.created_by_name.Homepage": 79,
+        "vusers.created": 79,
+        "http.requests": 79,
+        "vusers.skipped": 121,
+        "errors.ETIMEDOUT": 1
+      },
+      "rates": {
+        "http.request_rate": 15
+      },
+      "http.request_rate": null,
+      "firstCounterAt": 1681159580006,
+      "firstHistogramAt": 1681159580006,
+      "lastCounterAt": 1681159589984,
+      "lastHistogramAt": 1681159589958,
+      "firstMetricAt": 1681159580006,
+      "lastMetricAt": 1681159589984,
+      "period": "1681159580000",
+      "summaries": {
+        "http.response_time": {
+          "min": 167,
+          "max": 19062,
+          "count": 79,
+          "p50": 2725,
+          "median": 2725,
+          "p75": 7407.5,
+          "p90": 12459.8,
+          "p95": 14332.3,
+          "p99": 16819.2,
+          "p999": 16819.2
+        },
+        "vusers.session_length": {
+          "min": 311.1,
+          "max": 19389,
+          "count": 79,
+          "p50": 2893.5,
+          "median": 2893.5,
+          "p75": 7557.1,
+          "p90": 12459.8,
+          "p95": 14621.8,
+          "p99": 17158.9,
+          "p999": 17158.9
+        }
+      },
+      "histograms": {
+        "http.response_time": {
+          "min": 167,
+          "max": 19062,
+          "count": 79,
+          "p50": 2725,
+          "median": 2725,
+          "p75": 7407.5,
+          "p90": 12459.8,
+          "p95": 14332.3,
+          "p99": 16819.2,
+          "p999": 16819.2
+        },
+        "vusers.session_length": {
+          "min": 311.1,
+          "max": 19389,
+          "count": 79,
+          "p50": 2893.5,
+          "median": 2893.5,
+          "p75": 7557.1,
+          "p90": 12459.8,
+          "p95": 14621.8,
+          "p99": 17158.9,
+          "p999": 17158.9
+        }
+      }
+    },
+    {
+      "counters": {
+        "vusers.skipped": 117,
+        "http.codes.404": 82,
+        "http.responses": 82,
+        "vusers.failed": 5,
+        "vusers.completed": 82,
+        "vusers.created_by_name.Homepage": 83,
+        "vusers.created": 83,
+        "http.requests": 83,
+        "errors.ETIMEDOUT": 5
+      },
+      "rates": {
+        "http.request_rate": 14
+      },
+      "http.request_rate": null,
+      "firstCounterAt": 1681159590006,
+      "firstHistogramAt": 1681159590006,
+      "lastCounterAt": 1681159599984,
+      "lastHistogramAt": 1681159599976,
+      "firstMetricAt": 1681159590006,
+      "lastMetricAt": 1681159599984,
+      "period": "1681159590000",
+      "summaries": {
+        "http.response_time": {
+          "min": 166,
+          "max": 19005,
+          "count": 82,
+          "p50": 1720.2,
+          "median": 1720.2,
+          "p75": 6312.2,
+          "p90": 13770.3,
+          "p95": 17505.6,
+          "p99": 18220,
+          "p999": 18220
+        },
+        "vusers.session_length": {
+          "min": 320.2,
+          "max": 19149.4,
+          "count": 82,
+          "p50": 1863.5,
+          "median": 1863.5,
+          "p75": 6439.7,
+          "p90": 14048.5,
+          "p95": 17505.6,
+          "p99": 18220,
+          "p999": 18220
+        }
+      },
+      "histograms": {
+        "http.response_time": {
+          "min": 166,
+          "max": 19005,
+          "count": 82,
+          "p50": 1720.2,
+          "median": 1720.2,
+          "p75": 6312.2,
+          "p90": 13770.3,
+          "p95": 17505.6,
+          "p99": 18220,
+          "p999": 18220
+        },
+        "vusers.session_length": {
+          "min": 320.2,
+          "max": 19149.4,
+          "count": 82,
+          "p50": 1863.5,
+          "median": 1863.5,
+          "p75": 6439.7,
+          "p90": 14048.5,
+          "p95": 17505.6,
+          "p99": 18220,
+          "p999": 18220
+        }
+      }
+    },
+    {
+      "counters": {
+        "vusers.skipped": 120,
+        "http.codes.404": 73,
+        "http.responses": 73,
+        "vusers.failed": 6,
+        "vusers.completed": 73,
+        "vusers.created_by_name.Homepage": 80,
+        "vusers.created": 80,
+        "http.requests": 80,
+        "errors.ETIMEDOUT": 6
+      },
+      "rates": {
+        "http.request_rate": 16
+      },
+      "http.request_rate": null,
+      "firstCounterAt": 1681159600046,
+      "firstHistogramAt": 1681159600053,
+      "lastCounterAt": 1681159609984,
+      "lastHistogramAt": 1681159609976,
+      "firstMetricAt": 1681159600046,
+      "lastMetricAt": 1681159609984,
+      "period": "1681159600000",
+      "summaries": {
+        "http.response_time": {
+          "min": 162,
+          "max": 13408,
+          "count": 73,
+          "p50": 2186.8,
+          "median": 2186.8,
+          "p75": 5272.4,
+          "p90": 9230.4,
+          "p95": 12459.8,
+          "p99": 12459.8,
+          "p999": 12459.8
+        },
+        "vusers.session_length": {
+          "min": 306.2,
+          "max": 13568.5,
+          "count": 73,
+          "p50": 2369,
+          "median": 2369,
+          "p75": 5378.9,
+          "p90": 9416.8,
+          "p95": 12459.8,
+          "p99": 12459.8,
+          "p999": 12459.8
+        }
+      },
+      "histograms": {
+        "http.response_time": {
+          "min": 162,
+          "max": 13408,
+          "count": 73,
+          "p50": 2186.8,
+          "median": 2186.8,
+          "p75": 5272.4,
+          "p90": 9230.4,
+          "p95": 12459.8,
+          "p99": 12459.8,
+          "p999": 12459.8
+        },
+        "vusers.session_length": {
+          "min": 306.2,
+          "max": 13568.5,
+          "count": 73,
+          "p50": 2369,
+          "median": 2369,
+          "p75": 5378.9,
+          "p90": 9416.8,
+          "p95": 12459.8,
+          "p99": 12459.8,
+          "p999": 12459.8
+        }
+      }
+    },
+    {
+      "counters": {
+        "vusers.created_by_name.Homepage": 97,
+        "vusers.created": 97,
+        "http.requests": 97,
+        "vusers.skipped": 103,
+        "http.codes.404": 92,
+        "http.responses": 92,
+        "vusers.failed": 8,
+        "vusers.completed": 92,
+        "errors.ETIMEDOUT": 8
+      },
+      "rates": {
+        "http.request_rate": 15
+      },
+      "http.request_rate": null,
+      "firstCounterAt": 1681159610046,
+      "firstHistogramAt": 1681159610873,
+      "lastCounterAt": 1681159619984,
+      "lastHistogramAt": 1681159619972,
+      "firstMetricAt": 1681159610046,
+      "lastMetricAt": 1681159619984,
+      "period": "1681159610000",
+      "summaries": {
+        "http.response_time": {
+          "min": 161,
+          "max": 18478,
+          "count": 92,
+          "p50": 1200.1,
+          "median": 1200.1,
+          "p75": 4770.6,
+          "p90": 9801.2,
+          "p95": 12459.8,
+          "p99": 18588.1,
+          "p999": 18588.1
+        },
+        "vusers.session_length": {
+          "min": 310.2,
+          "max": 18641.6,
+          "count": 92,
+          "p50": 1353.1,
+          "median": 1353.1,
+          "p75": 4867,
+          "p90": 9999.2,
+          "p95": 12459.8,
+          "p99": 18588.1,
+          "p999": 18588.1
+        }
+      },
+      "histograms": {
+        "http.response_time": {
+          "min": 161,
+          "max": 18478,
+          "count": 92,
+          "p50": 1200.1,
+          "median": 1200.1,
+          "p75": 4770.6,
+          "p90": 9801.2,
+          "p95": 12459.8,
+          "p99": 18588.1,
+          "p999": 18588.1
+        },
+        "vusers.session_length": {
+          "min": 310.2,
+          "max": 18641.6,
+          "count": 92,
+          "p50": 1353.1,
+          "median": 1353.1,
+          "p75": 4867,
+          "p90": 9999.2,
+          "p95": 12459.8,
+          "p99": 18588.1,
+          "p999": 18588.1
+        }
+      }
+    },
+    {
+      "counters": {
+        "vusers.skipped": 37,
+        "http.codes.404": 165,
+        "http.responses": 165,
+        "vusers.failed": 4,
+        "vusers.completed": 165,
+        "vusers.created_by_name.Homepage": 163,
+        "vusers.created": 163,
+        "http.requests": 163,
+        "errors.ETIMEDOUT": 4
+      },
+      "rates": {
+        "http.request_rate": 19
+      },
+      "http.request_rate": null,
+      "firstCounterAt": 1681159620000,
+      "firstHistogramAt": 1681159620000,
+      "lastCounterAt": 1681159629994,
+      "lastHistogramAt": 1681159629994,
+      "firstMetricAt": 1681159620000,
+      "lastMetricAt": 1681159629994,
+      "period": "1681159620000",
+      "summaries": {
+        "http.response_time": {
+          "min": 160,
+          "max": 18004,
+          "count": 165,
+          "p50": 179.5,
+          "median": 179.5,
+          "p75": 1224.4,
+          "p90": 5711.5,
+          "p95": 11274.1,
+          "p99": 14332.3,
+          "p999": 16819.2
+        },
+        "vusers.session_length": {
+          "min": 306.7,
+          "max": 18152.9,
+          "count": 165,
+          "p50": 340.4,
+          "median": 340.4,
+          "p75": 1380.5,
+          "p90": 5944.6,
+          "p95": 11501.8,
+          "p99": 14621.8,
+          "p999": 17158.9
+        }
+      },
+      "histograms": {
+        "http.response_time": {
+          "min": 160,
+          "max": 18004,
+          "count": 165,
+          "p50": 179.5,
+          "median": 179.5,
+          "p75": 1224.4,
+          "p90": 5711.5,
+          "p95": 11274.1,
+          "p99": 14332.3,
+          "p999": 16819.2
+        },
+        "vusers.session_length": {
+          "min": 306.7,
+          "max": 18152.9,
+          "count": 165,
+          "p50": 340.4,
+          "median": 340.4,
+          "p75": 1380.5,
+          "p90": 5944.6,
+          "p95": 11501.8,
+          "p99": 14621.8,
+          "p999": 17158.9
+        }
+      }
+    },
+    {
+      "counters": {
+        "vusers.skipped": 49,
+        "http.codes.404": 156,
+        "http.responses": 156,
+        "vusers.failed": 1,
+        "vusers.completed": 156,
+        "vusers.created_by_name.Homepage": 151,
+        "vusers.created": 151,
+        "http.requests": 151,
+        "errors.ETIMEDOUT": 1
+      },
+      "rates": {
+        "http.request_rate": 16
+      },
+      "http.request_rate": null,
+      "firstCounterAt": 1681159630046,
+      "firstHistogramAt": 1681159630111,
+      "lastCounterAt": 1681159639984,
+      "lastHistogramAt": 1681159639978,
+      "firstMetricAt": 1681159630046,
+      "lastMetricAt": 1681159639984,
+      "period": "1681159630000",
+      "summaries": {
+        "http.response_time": {
+          "min": 159,
+          "max": 17996,
+          "count": 156,
+          "p50": 183.1,
+          "median": 183.1,
+          "p75": 1720.2,
+          "p90": 5826.9,
+          "p95": 10407.3,
+          "p99": 14332.3,
+          "p999": 14917.2
+        },
+        "vusers.session_length": {
+          "min": 306.9,
+          "max": 18153.8,
+          "count": 156,
+          "p50": 340.4,
+          "median": 340.4,
+          "p75": 1863.5,
+          "p90": 5944.6,
+          "p95": 10617.5,
+          "p99": 14621.8,
+          "p999": 15218.6
+        }
+      },
+      "histograms": {
+        "http.response_time": {
+          "min": 159,
+          "max": 17996,
+          "count": 156,
+          "p50": 183.1,
+          "median": 183.1,
+          "p75": 1720.2,
+          "p90": 5826.9,
+          "p95": 10407.3,
+          "p99": 14332.3,
+          "p999": 14917.2
+        },
+        "vusers.session_length": {
+          "min": 306.9,
+          "max": 18153.8,
+          "count": 156,
+          "p50": 340.4,
+          "median": 340.4,
+          "p75": 1863.5,
+          "p90": 5944.6,
+          "p95": 10617.5,
+          "p99": 14621.8,
+          "p999": 15218.6
+        }
+      }
+    },
+    {
+      "counters": {
+        "vusers.created_by_name.Homepage": 168,
+        "vusers.created": 168,
+        "http.requests": 168,
+        "http.codes.404": 161,
+        "http.responses": 161,
+        "vusers.failed": 2,
+        "vusers.completed": 160,
+        "vusers.skipped": 32,
+        "errors.ETIMEDOUT": 1,
+        "errors.ECONNRESET": 1
+      },
+      "rates": {
+        "http.request_rate": 18
+      },
+      "http.request_rate": null,
+      "firstCounterAt": 1681159640040,
+      "firstHistogramAt": 1681159640040,
+      "lastCounterAt": 1681159649998,
+      "lastHistogramAt": 1681159649998,
+      "firstMetricAt": 1681159640040,
+      "lastMetricAt": 1681159649998,
+      "period": "1681159640000",
+      "summaries": {
+        "http.response_time": {
+          "min": 159,
+          "max": 16436,
+          "count": 161,
+          "p50": 186.8,
+          "median": 186.8,
+          "p75": 1200.1,
+          "p90": 3752.7,
+          "p95": 5711.5,
+          "p99": 12459.8,
+          "p999": 12459.8
+        },
+        "vusers.session_length": {
+          "min": 305.7,
+          "max": 16580.8,
+          "count": 160,
+          "p50": 333.7,
+          "median": 333.7,
+          "p75": 1353.1,
+          "p90": 3905.8,
+          "p95": 5944.6,
+          "p99": 12459.8,
+          "p999": 12459.8
+        }
+      },
+      "histograms": {
+        "http.response_time": {
+          "min": 159,
+          "max": 16436,
+          "count": 161,
+          "p50": 186.8,
+          "median": 186.8,
+          "p75": 1200.1,
+          "p90": 3752.7,
+          "p95": 5711.5,
+          "p99": 12459.8,
+          "p999": 12459.8
+        },
+        "vusers.session_length": {
+          "min": 305.7,
+          "max": 16580.8,
+          "count": 160,
+          "p50": 333.7,
+          "median": 333.7,
+          "p75": 1353.1,
+          "p90": 3905.8,
+          "p95": 5944.6,
+          "p99": 12459.8,
+          "p999": 12459.8
+        }
+      }
+    },
+    {
+      "counters": {
+        "vusers.skipped": 39,
+        "http.codes.404": 161,
+        "http.responses": 161,
+        "vusers.failed": 5,
+        "vusers.completed": 161,
+        "vusers.created_by_name.Homepage": 161,
+        "vusers.created": 161,
+        "http.requests": 161,
+        "errors.ETIMEDOUT": 5
+      },
+      "rates": {
+        "http.request_rate": 19
+      },
+      "http.request_rate": null,
+      "firstCounterAt": 1681159650045,
+      "firstHistogramAt": 1681159650045,
+      "lastCounterAt": 1681159659985,
+      "lastHistogramAt": 1681159659964,
+      "firstMetricAt": 1681159650045,
+      "lastMetricAt": 1681159659985,
+      "period": "1681159650000",
+      "summaries": {
+        "http.response_time": {
+          "min": 160,
+          "max": 13422,
+          "count": 161,
+          "p50": 671.9,
+          "median": 671.9,
+          "p75": 1720.2,
+          "p90": 5272.4,
+          "p95": 7117,
+          "p99": 12459.8,
+          "p999": 13497.6
+        },
+        "vusers.session_length": {
+          "min": 306.9,
+          "max": 13573.3,
+          "count": 161,
+          "p50": 820.7,
+          "median": 820.7,
+          "p75": 1863.5,
+          "p90": 5378.9,
+          "p95": 7260.8,
+          "p99": 12459.8,
+          "p999": 13497.6
+        }
+      },
+      "histograms": {
+        "http.response_time": {
+          "min": 160,
+          "max": 13422,
+          "count": 161,
+          "p50": 671.9,
+          "median": 671.9,
+          "p75": 1720.2,
+          "p90": 5272.4,
+          "p95": 7117,
+          "p99": 12459.8,
+          "p999": 13497.6
+        },
+        "vusers.session_length": {
+          "min": 306.9,
+          "max": 13573.3,
+          "count": 161,
+          "p50": 820.7,
+          "median": 820.7,
+          "p75": 1863.5,
+          "p90": 5378.9,
+          "p95": 7260.8,
+          "p99": 12459.8,
+          "p999": 13497.6
+        }
+      }
+    },
+    {
+      "counters": {
+        "http.codes.404": 156,
+        "http.responses": 156,
+        "vusers.failed": 2,
+        "vusers.completed": 156,
+        "vusers.created_by_name.Homepage": 156,
+        "vusers.created": 156,
+        "http.requests": 156,
+        "vusers.skipped": 44,
+        "errors.ETIMEDOUT": 2
+      },
+      "rates": {
+        "http.request_rate": 18
+      },
+      "http.request_rate": null,
+      "firstCounterAt": 1681159660011,
+      "firstHistogramAt": 1681159660011,
+      "lastCounterAt": 1681159669985,
+      "lastHistogramAt": 1681159669953,
+      "firstMetricAt": 1681159660011,
+      "lastMetricAt": 1681159669985,
+      "period": "1681159660000",
+      "summaries": {
+        "http.response_time": {
+          "min": 159,
+          "max": 19768,
+          "count": 156,
+          "p50": 206.5,
+          "median": 206.5,
+          "p75": 1224.4,
+          "p90": 4770.6,
+          "p95": 7260.8,
+          "p99": 12459.8,
+          "p999": 14332.3
+        },
+        "vusers.session_length": {
+          "min": 305.7,
+          "max": 19915.6,
+          "count": 156,
+          "p50": 354.3,
+          "median": 354.3,
+          "p75": 1380.5,
+          "p90": 4867,
+          "p95": 7407.5,
+          "p99": 12459.8,
+          "p999": 14621.8
+        }
+      },
+      "histograms": {
+        "http.response_time": {
+          "min": 159,
+          "max": 19768,
+          "count": 156,
+          "p50": 206.5,
+          "median": 206.5,
+          "p75": 1224.4,
+          "p90": 4770.6,
+          "p95": 7260.8,
+          "p99": 12459.8,
+          "p999": 14332.3
+        },
+        "vusers.session_length": {
+          "min": 305.7,
+          "max": 19915.6,
+          "count": 156,
+          "p50": 354.3,
+          "median": 354.3,
+          "p75": 1380.5,
+          "p90": 4867,
+          "p95": 7407.5,
+          "p99": 12459.8,
+          "p999": 14621.8
+        }
+      }
+    },
+    {
+      "counters": {
+        "http.codes.404": 118,
+        "http.responses": 130,
+        "vusers.failed": 1,
+        "vusers.completed": 130,
+        "vusers.created_by_name.Homepage": 154,
+        "vusers.created": 154,
+        "http.requests": 154,
+        "vusers.skipped": 46,
+        "errors.ETIMEDOUT": 1,
+        "http.codes.200": 12
+      },
+      "rates": {
+        "http.request_rate": 19
+      },
+      "http.request_rate": null,
+      "firstCounterAt": 1681159670031,
+      "firstHistogramAt": 1681159670031,
+      "lastCounterAt": 1681159679983,
+      "lastHistogramAt": 1681159678947,
+      "firstMetricAt": 1681159670031,
+      "lastMetricAt": 1681159679983,
+      "period": "1681159670000",
+      "summaries": {
+        "http.response_time": {
+          "min": 161,
+          "max": 18209,
+          "count": 130,
+          "p50": 561.2,
+          "median": 561.2,
+          "p75": 1686.1,
+          "p90": 4867,
+          "p95": 8024.5,
+          "p99": 11274.1,
+          "p999": 12968.3
+        },
+        "vusers.session_length": {
+          "min": 309,
+          "max": 18359.2,
+          "count": 130,
+          "p50": 699.4,
+          "median": 699.4,
+          "p75": 1863.5,
+          "p90": 5065.6,
+          "p95": 8186.6,
+          "p99": 11501.8,
+          "p999": 13230.3
+        }
+      },
+      "histograms": {
+        "http.response_time": {
+          "min": 161,
+          "max": 18209,
+          "count": 130,
+          "p50": 561.2,
+          "median": 561.2,
+          "p75": 1686.1,
+          "p90": 4867,
+          "p95": 8024.5,
+          "p99": 11274.1,
+          "p999": 12968.3
+        },
+        "vusers.session_length": {
+          "min": 309,
+          "max": 18359.2,
+          "count": 130,
+          "p50": 699.4,
+          "median": 699.4,
+          "p75": 1863.5,
+          "p90": 5065.6,
+          "p95": 8186.6,
+          "p99": 11501.8,
+          "p999": 13230.3
+        }
+      }
+    },
+    {
+      "counters": {
+        "vusers.skipped": 198,
+        "errors.ETIMEDOUT": 3,
+        "vusers.failed": 3,
+        "vusers.created_by_name.Homepage": 2,
+        "vusers.created": 2,
+        "http.requests": 2
+      },
+      "rates": {
+        "http.request_rate": 2
+      },
+      "firstCounterAt": 1681159680045,
+      "lastCounterAt": 1681159689983,
+      "firstMetricAt": 1681159680045,
+      "lastMetricAt": 1681159689983,
+      "period": "1681159680000",
+      "http.request_rate": null,
+      "summaries": {},
+      "histograms": {}
+    },
+    {
+      "counters": {
+        "vusers.skipped": 160,
+        "errors.ETIMEDOUT": 46,
+        "vusers.failed": 46,
+        "vusers.created_by_name.Homepage": 40,
+        "vusers.created": 40,
+        "http.requests": 40
+      },
+      "rates": {
+        "http.request_rate": 17
+      },
+      "http.request_rate": null,
+      "firstCounterAt": 1681159690045,
+      "lastCounterAt": 1681159699983,
+      "firstMetricAt": 1681159690045,
+      "lastMetricAt": 1681159699983,
+      "period": "1681159690000",
+      "summaries": {},
+      "histograms": {}
+    },
+    {
+      "counters": {
+        "vusers.skipped": 190,
+        "vusers.created_by_name.Homepage": 10,
+        "vusers.created": 10,
+        "http.requests": 10,
+        "errors.ETIMEDOUT": 2,
+        "vusers.failed": 2
+      },
+      "rates": {
+        "http.request_rate": 10
+      },
+      "firstCounterAt": 1681159700045,
+      "lastCounterAt": 1681159709983,
+      "firstMetricAt": 1681159700045,
+      "lastMetricAt": 1681159709983,
+      "period": "1681159700000",
+      "http.request_rate": null,
+      "summaries": {},
+      "histograms": {}
+    },
+    {
+      "counters": {
+        "vusers.skipped": 68,
+        "errors.ETIMEDOUT": 38,
+        "vusers.failed": 38,
+        "http.codes.200": 2,
+        "http.responses": 2,
+        "vusers.completed": 2,
+        "vusers.created_by_name.Homepage": 4,
+        "vusers.created": 4,
+        "http.requests": 4
+      },
+      "rates": {
+        "http.request_rate": 4
+      },
+      "firstCounterAt": 1681159710046,
+      "firstHistogramAt": 1681159710306,
+      "lastCounterAt": 1681159719875,
+      "lastHistogramAt": 1681159717912,
+      "firstMetricAt": 1681159710046,
+      "lastMetricAt": 1681159719875,
+      "period": "1681159710000",
+      "http.request_rate": null,
+      "summaries": {
+        "http.response_time": {
+          "min": 11540,
+          "max": 18404,
+          "count": 2,
+          "p50": 11501.8,
+          "median": 11501.8,
+          "p75": 11501.8,
+          "p90": 11501.8,
+          "p95": 11501.8,
+          "p99": 11501.8,
+          "p999": 11501.8
+        },
+        "vusers.session_length": {
+          "min": 11697,
+          "max": 18553.1,
+          "count": 2,
+          "p50": 11734.2,
+          "median": 11734.2,
+          "p75": 11734.2,
+          "p90": 11734.2,
+          "p95": 11734.2,
+          "p99": 11734.2,
+          "p999": 11734.2
+        }
+      },
+      "histograms": {
+        "http.response_time": {
+          "min": 11540,
+          "max": 18404,
+          "count": 2,
+          "p50": 11501.8,
+          "median": 11501.8,
+          "p75": 11501.8,
+          "p90": 11501.8,
+          "p95": 11501.8,
+          "p99": 11501.8,
+          "p999": 11501.8
+        },
+        "vusers.session_length": {
+          "min": 11697,
+          "max": 18553.1,
+          "count": 2,
+          "p50": 11734.2,
+          "median": 11734.2,
+          "p75": 11734.2,
+          "p90": 11734.2,
+          "p95": 11734.2,
+          "p99": 11734.2,
+          "p999": 11734.2
+        }
+      }
+    },
+    {
+      "counters": {
+        "errors.ETIMEDOUT": 10,
+        "vusers.failed": 10
+      },
+      "rates": {},
+      "firstCounterAt": 1681159720124,
+      "lastCounterAt": 1681159728307,
+      "firstMetricAt": 1681159720124,
+      "lastMetricAt": 1681159728307,
+      "period": "1681159720000",
+      "summaries": {},
+      "histograms": {}
+    }
+  ],
+  "name": "result.json"
+};
+    const editor = ace.edit("editor");
+    editor.getSession().setMode("ace/mode/javascript");
+    editor.setValue(JSON.stringify(Report, null, 2));
+    editor.gotoLine(1);
+    editor.setHighlightActiveLine(false);
+    editor.setOption("maxLines", 50);
+    editor.setTheme("ace/theme/clouds_midnight");
+
+    // let sanitizedName = Report.name.replace(/_/, " ").split(" ").map((w) => w[0].toUpperCase()+w.substring(1,w.length)).join(" ")
+    $('#report-name').html(Report.name.replace(".json", ""))
+
+    const l = _;
+
+    const chartBgColors = {
+      red: "rgba(255, 99, 132, 0.2)",
+      orange: "rgba(255, 159, 64, 0.2)",
+      yellow: "rgba(255, 205, 86, 0.2)",
+      green: "rgba(75, 192, 192, 0.2)",
+      blue: "rgba(54, 162, 235, 0.2)",
+    };
+
+    const chartBorderColors = {
+      green: "#24EB70",
+      red: "#ff0000",
+      orange: "#FF6D1B",
+      purple: "#6100FF",
+      blue: "#0047FF"
+    };
+
+    const getHttpColor = (httpCode) => {
+      const code = parseInt(httpCode, 10);
+
+      if (code >= 100 && code < 200) {
+        return chartBorderColors.blue;
+      } else if (code >= 200 && code < 300) {
+        return chartBorderColors.green;
+      } else if (code >= 300 && code < 400) {
+        return chartBorderColors.red;
+      } else if (code >= 400 && code < 500) {
+        return chartBorderColors.purple;
+      }
+
+      return chartBorderColors.orange;
+    }
+
+    const getLatencyColor = (latency) => {
+      switch (latency) {
+        case "min":
+          return chartBorderColors.red;
+        case "max":
+          return chartBorderColors.orange;
+        case "median":
+          return chartBorderColors.purple;
+        case "p95":
+          return chartBorderColors.green;
+        case "p99":
+          return chartBorderColors.green;
+        default:
+          return '';
+      }
+    };
+
+    const getCustomStats = (stats) =>
+      l.omitBy(
+        stats,
+        (_, key) =>
+          key.startsWith("errors.") ||
+          key.startsWith("core.") ||
+          key.startsWith("engine.")
+      );
+
+    const scenarioCounts = l.pickBy(Report.aggregate.counters, (_, key) =>
+      key.startsWith("vusers.created_by_name")
+    );
+
+    if (l.size(scenarioCounts) > 0) {
+      l.each(scenarioCounts, function (count, key) {
+        const [, , name] = key.split(".");
+
+        const $tdName = $("<td>" + name + "</td>");
+        const percentage =
+          Math.round(
+            (count / Report.aggregate.counters["vusers.created"]) *
+            100 *
+            1000
+          ) / 1000;
+        const $tdCount = $("<td>" + count + " (" + percentage + "%)" + "</td>");
+        $("<tr></tr>")
+          .append($tdName)
+          .append($tdCount)
+          .appendTo($("#scenarioCounts"));
+      });
+    } else {
+      $("#scenarioCountsContainer").hide();
+    }
+
+    const httpCodes = l.pickBy(Report.aggregate.counters, (_, key) =>
+      key.startsWith("http.codes")
+    );
+
+    const errors = l.pickBy(Report.aggregate.counters, (_, key) =>
+      key.startsWith("errors.")
+    );
+    if (l.size(errors) > 0) {
+      l.each(errors, function (count, error) {
+        const [, errorDetail] = error.split("errors.");
+
+        $("<tr></tr>")
+          .append($("<td>" + errorDetail + "</td>"))
+          .append($("<td>" + count + "</td>"))
+          .appendTo($("#errors"));
+      });
+    } else {
+      $("#errorsContainer > p").html(
+        "&#10004; Test completed without network or OS errors."
+      );
+    }
+
+    const getTimePeriodAggregates = (summaries) => {
+      const summary =
+        summaries["socketio.response_time"] ||
+        summaries["http.response_time"];
+      const metrics = ["min", "max", "median", "p95", "p99"];
+
+      return l.pickBy(summary, (_, key) => metrics.includes(key));
+    };
+
+    const getLatencyDistribution = (data) => {
+      return l.reduce(
+        data,
+        (acc, value, key) => {
+          acc.labels.push(key);
+          acc.values.push(value);
+
+          return acc;
+        },
+        { labels: [], values: [] }
+      );
+    };
+
+    const randomRgbColor = () => {
+      const r = Math.floor(Math.random() * 256);
+      const g = Math.floor(Math.random() * 256);
+      const b = Math.floor(Math.random() * 256);
+
+      return "rgb(" + r + ", " + g + ", " + b + ")";
+    };
+
+    const latencyDistributionData = getLatencyDistribution(
+      getTimePeriodAggregates(Report.aggregate.summaries)
+    );
+
+    const latencyAtIntervalsData = (intermediates = []) => {
+      const data = intermediates.reduce(
+        (acc, entry, idx) => {
+          const latencies = getTimePeriodAggregates(entry.summaries);
+
+          l.each(latencies, (latency, key) => {
+            acc.values[key] = acc.values[key] || [];
+
+            acc.values[key].push(latency);
+          });
+
+          acc.labels.push((idx + 1) * 10);
+
+          return acc;
+        },
+        { labels: [], values: {} }
+      );
+
+      return {
+        labels: data.labels,
+        datasets: l.map(data.values, (entry, key) => {
+          const color = getLatencyColor(key);
+
+          return {
+            label: key,
+            data: entry,
+            fill: false,
+            backgroundColor: color,
+            borderColor: color,
+            tension: 0.5,
+          };
+        })
+      };
+    };
+
+
+    const getMeanRpsData = (intermediates = []) => {
+      const data = intermediates.reduce(
+        (acc, entry, idx) => {
+          const count =
+            entry.rates["http.request_rate"] ||
+            entry.rates["socketio.emit_rate"] ||
+            entry.rates["websocket.send_rate"] ||
+            0;
+
+          acc.labels.push((idx + 1) * 10);
+          acc.values.push(count);
+
+          return acc;
+        },
+        { labels: [], values: [] }
+      );
+
+      return {
+        labels: data.labels,
+        datasets: [
+          {
+            data: data.values,
+            fill: false,
+            borderColor: "#0047FF",
+            tension: 0.5,
+          },
+        ],
+      };
+    };
+
+    const getHttpCodesData = (counters) => {
+      const httpCodes = l.pickBy(counters, (_, key) =>
+        key.startsWith("http.codes")
+      );
+      const labels = [];
+      const data = [];
+      const bgColors = [
+        "rgba(54, 232, 235, 0.5)",
+        "rgba(54, 235, 93, 0.5)",
+        "rgba(229, 235, 54, 0.5)",
+        "rgba(166, 54, 235, 0.5)",
+        "rgba(235, 54, 69, 0.5)",
+      ];
+
+      if (l.size(httpCodes) > 0) {
+        l.each(httpCodes, function (count, key) {
+          let [, , , code] = key.split(".");
+          code = parseInt(code, 10);
+
+          labels.push(code);
+          data.push(count);
+        });
+      }
+
+      return {
+        labels,
+        datasets: [
+          {
+            backgroundColor: labels.map(getHttpColor),
+            hoverOffset: 4,
+            data,
+          },
+        ],
+      };
+    };
+
+    const timeFormat = "DD[/]MM[/]YYYY, hh:mm:ss"
+    $("#timestamp").html(
+      moment(Report.aggregate.period).format(timeFormat)
+    );
+    $('#copy-json').on("click", (e) => {
+      navigator.clipboard.writeText(JSON.stringify(Report, null, 2));
+
+      $('#copy-json').html(`<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" aria-label="" aria-labelledby="icon_start" x="0px" y="0px" role="img" class="inline false"><title id="icon_start" lang="en"></title><g fill="currentColor"><path d="M16 1H4C2.9 1 2 1.9 2 3V17H4V3H16V1ZM19 5H8C6.9 5 6 5.9 6 7V21C6 22.1 6.9 23 8 23H19C20.1 23 21 22.1 21 21V7C21 5.9 20.1 5 19 5ZM19 21H8V7H19V21Z"></path></g></svg>`)
+      setTimeout(function () {
+        $('#copy-json').html(`<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" aria-label="" aria-labelledby="icon_start" x="0px" y="0px" role="img" class="inline false"><title id="icon_start" lang="en"></title><g fill="currentColor"><path d="M16 1H4C2.9 1 2 1.9 2 3V17H4V3H16V1ZM19 5H8C6.9 5 6 5.9 6 7V21C6 22.1 6.9 23 8 23H19C20.1 23 21 22.1 21 21V7C21 5.9 20.1 5 19 5ZM19 21H8V7H19V21Z"></path></g></svg>`)
+      }, 1000)
+    })
+
+
+    // tabs logic
+    $("#charts-tab").on("click", (e) => {
+      $("#charts-tab").addClass("active")
+      $("#json-tab").removeClass("active")
+
+      $("#index-tree").removeClass("hidden")
+      $("#charts-col").removeClass("hidden")
+      $("#json-output").addClass("hidden")
+    })
+
+    $("#json-tab").on("click", (e) => {
+      $("#json-tab").addClass("active")
+      $("#charts-tab").removeClass("active")
+
+      $("#index-tree").addClass("hidden")
+      $("#charts-col").addClass("hidden")
+      $("#json-output").removeClass("hidden")
+    })
+
+    //counters toggle
+    $("#counters-title").on("click", (e) => {
+      $('#customCountersTable').hasClass("hidden") ? $('#customCountersTable').removeClass("hidden") : $('#customCountersTable').addClass("hidden")
+      $('#counters-title').hasClass("chevron-down") ? $('#counters-title').removeClass("chevron-down") : $('#counters-title').addClass("chevron-down")
+    })
+
+
+    const iconDuration = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" aria-label="Duration" aria-labelledby="icon_duration" x="0px" y="0px" role="img"><title id="icon_duration" lang="en">Duration</title><g fill="#9B9B9B"><path d="M15 1H9V3H15V1ZM11 14H13V8H11V14ZM19.03 7.39L20.45 5.97C20.02 5.46 19.55 4.98 19.04 4.56L17.62 5.98C16.07 4.74 14.12 4 12 4C7.03 4 3 8.03 3 13C3 17.97 7.02 22 12 22C16.98 22 21 17.97 21 13C21 10.88 20.26 8.93 19.03 7.39ZM12 20C8.13 20 5 16.87 5 13C5 9.13 8.13 6 12 6C15.87 6 19 9.13 19 13C19 16.87 15.87 20 12 20Z"></path></g></svg>`
+    const checkCircle = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle" viewBox="0 0 16 16">
+        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+        <path d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z"/>
+      </svg>`
+
+    const xCircle = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" aria-label="Regions" aria-labelledby="icon_regions" x="0px" y="0px" role="img"><title id="icon_regions" lang="en">Regions</title><g fill="#9B9B9B"><path d="M12 2C6.47 2 2 6.47 2 12C2 17.53 6.47 22 12 22C17.53 22 22 17.53 22 12C22 6.47 17.53 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20ZM15.59 7L12 10.59L8.41 7L7 8.41L10.59 12L7 15.59L8.41 17L12 13.41L15.59 17L17 15.59L13.41 12L17 8.41L15.59 7Z"></path></g></svg>`
+    const iconStarted = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" aria-label="Started" aria-labelledby="icon_started" x="0px" y="0px" role="img"><title id="icon_started" lang="en">Started</title><g fill="#9B9B9B"><path d="M11.99 2C6.47 2 2 6.48 2 12C2 17.52 6.47 22 11.99 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 11.99 2ZM12 20C7.58 20 4 16.42 4 12C4 7.58 7.58 4 12 4C16.42 4 20 7.58 20 12C20 16.42 16.42 20 12 20ZM12.5 7H11V13L16.25 16.15L17 14.92L12.5 12.25V7Z"></path></g></svg>`
+    const iconFinished = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" aria-label="Finished" aria-labelledby="icon_finished" x="0px" y="0px" role="img"><title id="icon_finished" lang="en">Finished</title><g fill="#9B9B9B"><path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20ZM16.59 7.58L10 14.17L7.41 11.59L6 13L10 17L18 9L16.59 7.58Z"></path></g></svg>`
+    // summary blocks
+
+    const timeStarted = moment(Report.aggregate.firstMetricAt)
+    const timeFinished = moment(Report.aggregate.lastMetricAt)
+
+    function formatDuration(s) {
+      var min = Math.floor(s / 60)
+      var sec = s - min * 60
+      return min + "m " + sec + "s"
+    }
+
+    const summaryInfo = [
+      { icon: iconDuration, name: "Duration", value: formatDuration(timeFinished.diff(timeStarted, "seconds")) || "n/a" },
+      { icon: iconStarted, name: "Started", value: timeStarted.format(timeFormat) || "n/a" },
+      { icon: iconFinished, name: "Completed", value: timeFinished.format(timeFormat) || "n/a" },
+      { icon: xCircle, name: "Errors", value: !errors ? "n/a" : errors.length ? errors.length : "0" },
+    ]
+
+    function summaryBlock(block) {
+      return (
+        `<li class="summary-block flex flex-auto items-center justify-start rounded py-2 px-3 mb-3 border-gray" >
+              <div class="mr-3 text-gray-default">`+
+        block.icon +
+        `</div>
+              <div><div class="text-gray-default text-xsm">`+
+        block.name +
+        `</div>
+              <div class="text-xsm">
+                `+ block.value + `
+              </div>
+              </div>
+        </li>`
+      )
+    }
+
+    summaryInfo.forEach((block) => {
+      const appendage = summaryBlock(block)
+      $("#summary-blocks").append(appendage);
+    })
+
+
+    if (l.size(errors) > 0) {
+      const getErrorsAtIntervalsData = (intermediates = []) => {
+        const data = intermediates.reduce(
+          (acc, entry, idx) => {
+            const errorsCounters = l.pickBy(entry.counters, (_, key) =>
+              key.startsWith("errors.")
+            );
+
+            l.each(errorsCounters, (count, key) => {
+              const [, errorDetail] = key.split("errors.");
+
+              acc.values[errorDetail] = acc.values[errorDetail] || [];
+
+              acc.values[errorDetail].push(count);
+            });
+
+            acc.labels.push((idx + 1) * 10);
+
+            return acc;
+          },
+          { labels: [], values: {} }
+        );
+
+        return {
+          labels: data.labels,
+          datasets: l.map(data.values, (entry, key) => {
+            return {
+              label: key,
+              data: entry,
+              fill: false,
+              backgroundColor: Object.values(chartBorderColors),
+              borderColor: Object.values(chartBorderColors),
+              tension: 0.5,
+            };
+          })
+        };
+      };
+
+
+      new Chart(document.getElementById("errorsAtIntervalsChart"), {
+        type: "line",
+        data: getErrorsAtIntervalsData(Report.intermediate),
+        options: {
+          plugins: { legend: { position: "bottom" } },
+          aspectRatio: 3.5,
+          scales: {
+            y: {
+              beginAtZero: true,
+              title: {
+                display: true,
+                text: "count",
+              },
+            },
+          },
+        },
+      });
+    }
+    !errors.length && $("#errorsChartsRow").hide();
+
+    const unorderedCustomCounters = Report.aggregate.counters;
+    const customCounters = Object.keys(unorderedCustomCounters).sort().reduce(
+      (obj, key) => {
+        obj[key] = unorderedCustomCounters[key];
+        return obj;
+      },
+      {}
+    );
+
+    if (l.size(customCounters) > 0) {
+      let rows = [];
+      l.each(customCounters, function (count, key) {
+        const row = $("<tr></tr>")
+          .append($('<td class="text-xsm whitespace-nowrap p-2 font-normal text-white" colspan="6">' + key + '</td>'))
+          .append($('<td class="text-xsm whitespace-nowrap p-2 font-normal text-white" colspan="6">' + count + '</td>'));
+        rows.push(row);
+      });
+
+
+
+      rows.forEach((row) => row.appendTo($("#customCountersTable")));
+      const getCustomStatsAtIntervalsData = (intermediates = []) => {
+        const data = intermediates.reduce(
+          (acc, entry, idx) => {
+            const customCounters = entry.counters;
+
+            l.each(customCounters, (count, key) => {
+              acc.values[key] = acc.values[key] || [];
+              acc.values[key].push(count);
+            });
+
+            acc.labels.push((idx + 1) * 10);
+            return acc;
+          },
+          { labels: [], values: {} }
+        );
+        return {
+          labels: data.labels,
+          datasets: l.map(data.values, (entry, key) => {
+            color = "#0047FF";
+            return {
+              label: key,
+              data: entry,
+              fill: false,
+              backgroundColor: color,
+              borderColor: color,
+              tension: 0.5,
+            };
+          }),
+        };
+      };
+
+      $("#expandCustomCountersRow").on("click", (e) => {
+        e.preventDefault();
+        $("#customCountersTable tr").removeClass("hidden");
+        $("#expandCustomCountersRow").addClass("hidden");
+      });
+
+      // create intermediate charts array with name and type
+      let intervalChartsArray = []
+      Report.intermediate.forEach((interval, i) => {
+        Object.keys(interval.counters).forEach((counter) => {
+          intervalChartsArray.find((chart) => chart.name == counter) || intervalChartsArray.push({ name: counter, data: [], type: "interval" })
+
+        })
+      })
+
+      let intervalChartsSet = []
+      intervalChartsArray.forEach((c) => {
+        if (!intervalChartsSet.includes(c)) {
+          intervalChartsSet.push(c);
+        }
+      });
+
+      // add data per interval for each chart 
+      intervalChartsSet.forEach((chart, i) => {
+        Report.intermediate.forEach((interval, j) => {
+          const value = interval.counters[chart.name] || 0
+          intervalChartsSet[i].data.push({ counters: { [chart.name]: value } })
+        })
+      })
+
+      // add summary data 
+      let aggregateChartsArray = []
+      Object.keys(Report.aggregate.summaries).forEach((summary) => {
+        const data = Report.aggregate.summaries[summary]
+        aggregateChartsArray.push({ name: summary, data: data, type: "aggregate" })
+
+      })
+
+      let chartsSet = [...intervalChartsSet, ...aggregateChartsArray].sort((a, b) => a.name < b.name ? -1 : 1)
+
+      const sanitizer = /[.| |'|"]/g
+      chartsSet.forEach((chart) => {
+        $('#customCountersAtIntervalsChart').append("<div id='" + chart.name.replaceAll(sanitizer, "-")
+          + "-wrapper' class='text-xsm rounded' style='border: 1px solid #383838;'><div class='p-2 text-gray-default' style='border-bottom: 1px solid #383838; background-color: #2b2b2b; font-weight: 500;''>"
+          + chart.name + "</div><div class='p-4'><canvas id='" + chart.name + "'>unable to create chart</canvas></div></div>")
+
+        if (chart.type === 'interval') {
+          new Chart(document.getElementById(chart.name), {
+            type: "bar",
+            data: getCustomStatsAtIntervalsData(chart.data),
+            options: {
+              barPercentage: 0.2,
+              plugins: { legend: { display: false } },
+              aspectRatio: 2.5,
+              responsive: true,
+              maintainAspectRatio: true,
+              scales: {
+                x: {
+                  title: {
+                    display: true,
+                    text: "time"
+                  },
+                  ticks: {
+                    color: '#9b9b9b',
+                  },
+                  grid: {
+                    color: 'transparent',
+                    borderColor: '#383838',
+                  },
+                },
+                y: {
+                  beginAtZero: true,
+                  title: {
+                    display: true,
+                    text: "count",
+                  },
+                  ticks: {
+                    color: '#9b9b9b',
+                    precision: 0,
+                  },
+                  grid: {
+                    color: '#383838',
+                    borderColor: '#383838',
+                  },
+                },
+              },
+            },
+          });
+        } else if (chart.type === 'aggregate') {
+          const { labels, values } = getLatencyDistribution(
+            l.pickBy(chart.data, (_, key) =>
+              ["min", "max", "median", "p95", "p99"].includes(key)
+            )
+          );
+          new Chart(document.getElementById(chart.name), {
+            type: "bar",
+            data: {
+              labels: labels,
+              datasets: [
+                {
+                  data: values,
+                  backgroundColor: Object.values(chartBorderColors),
+                  borderColor: Object.values(chartBgColors),
+                  borderWidth: 1,
+                },
+              ],
+            },
+            options: {
+              plugins: { legend: { display: false } },
+              barPercentage: 0.4,
+              scales: {
+                x: {
+                  ticks: {
+                    color: '#9b9b9b',
+                    precision: 0,
+                  },
+                  grid: {
+                    color: 'transparent',
+                    borderColor: '#383838',
+                  },
+                },
+                y: {
+                  beginAtZero: true,
+                  title: {
+                    display: true,
+                    text: "ms",
+                  },
+                  ticks: {
+                    color: '#9b9b9b',
+                    precision: 0,
+                  },
+                  grid: {
+                    color: '#383838',
+                    borderColor: '#383838',
+                  },
+                },
+              },
+            },
+          })
+        }
+      })
+
+      // parse out index tabs from custom counters for index nav
+      const parentRegex = /^([^.| ]+)/
+      const nodeRegex = /[ |\.](.*)/
+
+      let indexSet = new Set(chartsSet.map((c) => {
+        return c.name.match(parentRegex)[0]
+      }))
+
+      // create tree from index set
+      let indexTree = Array.from(indexSet).sort().reduce((key, value) => {
+        return { ...key, [value]: [] };
+      }, {});
+
+      // fill tree with custom counters according to parent tab
+      chartsSet.forEach((chart) => {
+        const node = chart.name
+        const parent = node ? chart.name.match(parentRegex)[0] : chart.name
+        indexTree[parent] && indexTree[parent].push({ name: node, type: chart.type })
+      })
+
+      // sort child nodes for each tab
+      for (let [key, value] of Object.entries(indexTree)) {
+        indexTree = {
+          ...indexTree, [key]: value.sort()
+        }
+      }
+
+      const chevron = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" aria-label="Toggle charts list for vusers metrics (5)" aria-labelledby="icon_toggle_vusers metrics (5)" x="0px" y="0px" role="img"><title id="icon_toggle_vusers metrics (5)" lang="en">Toggle charts list for vusers metrics (5)</title><g fill="currentColor"><path d="M12 8L6 14L7.41 15.41L12 10.83L16.59 15.41L18 14L12 8Z"></path></g></svg>`
+
+      // populate index with divs
+      let $htmlTree = $('<div class="mt-0 flex flex-col justify-start space-y-3 pb-3 text-gray-default"></div>')
+      Object.keys(indexTree).forEach((parent) => {
+        const nodeClass = parent.replaceAll(sanitizer, "-")
+        const nodes = indexTree[parent].map((n) =>
+          `<a class="text-xsm focus:text-beige hover:bg-black-default focus:ring-black-200 text-gray-default ml-2 block truncate rounded px-2 py-1.5 font-medium transition hover:text-white focus:ring-2 text-gray-default bg-transparent" 
+            href="#` + (n.name).replaceAll(sanitizer, "-") + '-wrapper" id="' + n.name + '-node" >'
+          + n.name
+          + '</a>').join("")
+
+        nodes.length > 1 ? $htmlTree.append(
+          '<div class="w-full overflow-hidden"><h4 id="' + nodeClass + '-parent" > <div onclick="nodeClick(`' + nodeClass + '`)" class="accordion-toggle cursor-pointer text-gray-default focus:text-beige flex items-center px-0 py-1.5 hover:text-white">'
+          + parent + ' metrics (' + indexTree[parent].length + ')'
+          + '<span class="ml-1 transition" style="transition-origin: center;">' + chevron + '</span>'
+          + ' </div> <div class="' + nodeClass + '-node accordion-details relative flex w-56 flex-col space-y-1 h-auto hidden">' + nodes + '</div></h4></div>'
+        ) :
+          $htmlTree.append("<div class='flex-col h-auto py-3'><a class='hover:text-beige' href='#" + parent + "--wrapper'>" + parent + "</a></div>")
+
+      })
+      const indexTreeContainer = $("#index-tree")
+      $htmlTree.appendTo(indexTreeContainer)
+
+    } else {
+      $("#charts-col").hide();
+      $("#customCountersContainer").hide();
+    }
+
+    function nodeClick(tab) {
+      const nodeClass = '.' + tab + '-node'
+      const nodes = document.querySelectorAll(nodeClass);
+      const parentTab = document.getElementById(tab + "-parent");
+      [...parentTab.classList].includes('chevron-down') ? parentTab.classList.remove('chevron-down') : parentTab.classList.add('chevron-down');
+      for (const node of nodes) {
+        [...node.classList].includes("hidden") ? node.classList.remove("hidden") : node.classList.add("hidden");
+      }
+    }
+
+  </script>
+</body>
+
+</html>

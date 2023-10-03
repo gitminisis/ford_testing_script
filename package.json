@@ -1,0 +1,16 @@
+{
+  "name": "ford-testing-script",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "artillery run script.yml --output result.json",
+    "report": "artillery report --output report.html result.json"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "artillery": "^2.0.0-31"
+  }
+}

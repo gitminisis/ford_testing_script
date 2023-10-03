@@ -1,0 +1,18 @@
+config:
+  target: "https://fordheritagevault.com"
+  http:
+     timeout: 20
+  phases:
+    - duration: 600
+      arrivalRate: 20
+      maxVusers: 50
+  defaults:
+    headers:
+      User-Agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"
+
+scenarios:
+  - name: "Homepage"
+    flow:
+      - post:
+          url: "/scripts/mwimain.dll?search&SIMPLE_EXP=Y&DATABASE=DESCRIPTION_OPAC3&REPORT=FORD_SUMMARY&ERRMSG=[FORD_INCLUDE]/html/no-record.html&APPLICATION=DESCRIPTION_OPAC3"
+          formData: "KEYWORD_CL=test"
